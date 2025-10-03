@@ -1,2 +1,5 @@
 /.quarto/
 /_site/
+
+# Ignore p5 examples
+/libraries/p5/empty-example
