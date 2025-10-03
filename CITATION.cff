@@ -1,0 +1,30 @@
+cff-version: 0.0.1
+title: LD58 - untitled
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Dimitri
+    family-names: Masson
+    orcid: "https://orcid.org/0000-0002-7072-3146"
+    email: dhm.masson@gmail.com
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.xxxx
+    description: "DOI of the Compo Release"
+  - type: doi
+    value: 10.5281/zenodo.xxxx
+    description: "DOI of all versions"
+repository-code: "https://github.com/dhmmasson/ld58"
+url: "dhmmasson.github.io/ld58/"
+abstract: >-
+  My entry to ld58
+keywords:
+  - Ludum Dare
+  - Game
+  - Web
+  - Javascript
+license: MIT
+version: v0.0.1
+date-released: "2025-10-05"
