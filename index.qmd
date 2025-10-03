@@ -1,0 +1,29 @@
+---
+title: "LD58"
+subtitle: "Made for Ludum Dare 58"  
+doi: ""
+abstract: ""
+author: 
+  - name: 
+      given: "Dimitri"
+      family: "Masson"
+    orcid: "0000-0002-7072-3146" 
+    email: "dhm.masson@gmail.com" 
+include-before-body:
+  text: |
+    <script src="libraries/p5/p5.min.js" type="text/javascript"></script>
+    <script src="libraries/p5/addons/p5.sound.min.js" type="text/javascript"></script>
+    <script src="src/game.js" type="text/javascript"></script>
+citation:
+  type: "software"
+  container-title: "LudumDare 58"
+  issued: "2025-10-05"
+  version: "0.0.1"
+date: "2025-10-05"
+title-block-categories: true
+---
+
+
+::: {#canvas .g-col-9}
+
+:::

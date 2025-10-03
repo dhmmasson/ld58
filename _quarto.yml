@@ -1,0 +1,44 @@
+project:
+  type: website
+  preview:
+    port: 6499
+
+website:
+  title: "LD58"
+  description: "My Entry for Ludum Dare 58. A game made in 48 hours."
+  site-url: "https://dhmmasson.github.io/LD58"
+  
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - about.qmd
+  open-graph:   
+    locale: "en_US"    
+  twitter-card: 
+    card-style: "summary_large_image"
+    creator: "@dhmmasson"
+    image: "asset/splash.png"
+    image-width: 640
+    image-height: 512
+  page-footer: 
+    left: 
+      - text: "Ludum Dare 58 (2025) - Dimitri Masson - MIT License"
+    right:
+      - text: "Star the project on GitHub"
+      - icon: github
+
+
+format:
+  html:
+    theme: cosmo
+    css: stylesheets/styles.css    
+    toc: false
+    page-layout: full
+    email-obfuscation: javascript
+    appendix-cite-as: display
+    title-block-style: manuscript
+    license: "MIT"
+
+
+
