@@ -1,0 +1,77 @@
+// @title D
+// @by Dhmmasson
+// @license CC BY-NC-SA
+
+const time = 1
+
+cpm(time*120/4)
+
+$drums: stack(
+ s("bd - - - bd bd? - cr?").color("red"),
+ s("cp:1").struct("- - x - - - x x?").color("yellow"),
+ s("rim:1").struct("- - x - - - x x?").color("yellow").velocity(sine.slow(8)),
+ s("tr808_sh").struct("x - x x x - x x x - x x x - x x").velocity(".8 - 1 .8 .8 - 1 .8 .8 - 1 .8 .8 - 1 .8").color("blue").swing(8).room(2).velocity(perlin.slow(16)),
+ s("hh:4!8").color("white").velocity(".8 - 1 .8 .8 - 1 .8 .8 - 1 .8 .8 - 1 .8").velocity(sine.slow(16)),  
+  
+)
+  .gain(.3)._pianoroll()
+
+
+addVoicings('dimitri', {
+  '': ['0 4 7', '0 12 16 7'],         // basic major triad voicing (D F# A)
+  'sus': ['0 5 8'],     // Dsus (D G Bb)
+  'p': ['0 6 9'],        // C+ (C F# A)
+  '6': ['0 9 12'],      // Bb6 (Bb D G Bb)
+  'inv': ['0 9 12']      // Bb6 (Bb D G Bb)
+})
+
+let sequences = [
+"d5  -  -   -  g4 a4  g4 - ",
+"f#4 d4 f#4 g4 a4 bb4 -  - ",
+"g4  a4 g4  -  g5 a5  g5 -",
+"f#4  g4 f#4  -  g4  a4 g4 -",
+"f#4 d4 f#4 g4 a4 bb4 a4 g4",
+"-   -  -   -  -  d5  -  g5",
+"-   -  d4   -  -  d5  -  - "
+  
+] 
+$: stack(
+  n("[0,1,2]")
+  .arp("<0 1 [1,2]@6 0>*8")
+  .struct("<x@3  x?  x@3  x?>*2")
+   
+  .chord("<Dsus Cp Bb6 Ainv>/4").dict('dimitri').mode("root")
+  .anchor("<D2 C2 Bb1 A1>/4").voicing().s("piano:3").color("yellow").hpf(140),
+
+  
+  note(chooseCycles(...sequences).someCycles(rev)).s("piano").echo(3, 1/6, slider(0.53)).color("blue").hpf(140).velocity(perlin.range(.4,.6).fast(2)),
+  note(chooseCycles(...sequences).someCycles(rev)).someCyclesBy(slider(0.492),x=>x.undegradeBy(1)).degradeBy(.2).clip(.5).transpose("0").s("gm_clarinet").color("red"),
+  note("<D2 C2 Bb1 A1>/4").transpose("8P").s("gm_clarinet").velocity(sine.slow(2).range(.3,.6)).orbit(4).color("white").orbit(4),
+  note("<D2 C2 Bb1 A1>/4").s("gm_contrabass").velocity(sine.slow(2).range(.4,.8)).orbit(4).color("white").orbit(4),
+  note("<D2 C2 Bb1 A1>!4/4").transpose("<0 8P>*4").s("gm_contrabass").clip(.6).velocity(sine.slow(2).range(.4,.8)).color("red").lpf(300)
+  
+  
+  )
+  // .delay(slider(0.027))
+  .compressor("-20:20:10:.002:.02")
+  .postgain(slider(0.214))
+  ._pianoroll({labels:true})
+
+// let violins = [
+//   "<a4 g4 a4 d5 a4 g4 a4 d5>*12",
+//   "<g4 gb4 g4 d5 g4 gb4 g4 d5>*12" ,
+//  "<a4 g4 a4 d5 a4 g4 a4 d5>*13",
+//   "<g4 gb4 g4 d5 g4 gb4 g4 d5>*13" ,
+// ]
+
+// $: note(chooseCycles(...violins)).s("gm_string_ensemble_1:2")
+//   .velocity("<.6 1 .8 .6>*12")
+//   .clip(1.2)
+//   .gain( perlin.slow(16).range(.5,2))
+//   .postgain(slider(0.414))
+//   .pan(sine.slow(2).range(.2,.8))
+//   ._pianoroll({labels:true})
+
+
+
+all( x => x.speed( 432 / 440 ))

@@ -1,0 +1,30 @@
+[
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "Website for my Ludum Dare 58 entry\n\n\n\nReuseMIT"
+  },
+  {
+    "objectID": "CHANGELOG.html",
+    "href": "CHANGELOG.html",
+    "title": "LD58",
+    "section": "",
+    "text": "add a splash screen\ncreate a quarto project"
+  },
+  {
+    "objectID": "CHANGELOG.html#v0.1.0-2025-10-03",
+    "href": "CHANGELOG.html#v0.1.0-2025-10-03",
+    "title": "LD58",
+    "section": "",
+    "text": "add a splash screen\ncreate a quarto project"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "LD58",
+    "section": "",
+    "text": "ReuseMITCitationFor attribution, please cite this work as:\nMasson, Dimitri. 2025. “LD58.” LudumDare 58. https://dhmmasson.github.io/LD58/."
+  }
+]
