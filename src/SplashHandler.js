@@ -9,7 +9,7 @@ const SplashHandler = {
     background(0);
     fill(255);
     noStroke();
-    textSize(100);
+    textSize(50);
 
     fill("#ee5533");
     textAlign(RIGHT, CENTER);
@@ -19,7 +19,9 @@ const SplashHandler = {
     text("58", width / 2, height / 2);
     fill(255);
     textAlign(CENTER, CENTER);
-    text("The Game", width / 2, height / 2 + 100);
+
+    text("Tiles Collector", width / 2, height / 2 + 50);
+
     textSize(20);
     text("Made in 48 hours", width / 2, height / 2 + 160);
     text("by Dimitri Masson", width / 2, height / 2 + 180);
