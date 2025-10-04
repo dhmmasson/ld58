@@ -1,3 +1,23 @@
+## v0.3.0 (2025-10-04)
+
+### Feat
+
+- update title and splash screen text to "Tiles Collector"
+- compute row and column score
+- generate a cool level 6
+- update level to have default cell values
+- add level selection functionality and levels data
+- add tiling, border and clipping
+- constrain grid size
+
+### Fix
+
+- improve small screen accessibility
+
+### Refactor
+
+- extract color picker
+
 ## v0.2.0 (2025-10-04)
 
 ### Feat
