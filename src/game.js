@@ -43,9 +43,22 @@ function draw() {
   }
 }
 
+// Event forwarding
 function mousePressed() {
   if (Game.currentHandler && Game.currentHandler.mousePressed) {
     Game.currentHandler.mousePressed();
+  }
+}
+
+function mouseReleased() {
+  if (Game.currentHandler && Game.currentHandler.mouseReleased) {
+    Game.currentHandler.mouseReleased();
+  }
+}
+
+function mouseMoved() {
+  if (Game.currentHandler && Game.currentHandler.mouseOver) {
+    Game.currentHandler.mouseOver();
   }
 }
 
@@ -78,7 +91,8 @@ const gridInfo = {
 
 const PlayHandler = {
   cells: [],
-
+  selectedCell: null,
+  hoveredCell: null,
   enter: function () {
     console.log("Enter Play");
     this.cells = [];
@@ -99,10 +113,29 @@ const PlayHandler = {
     background(255);
     // Draw Grid
     this.cells.forEach((cell) => cell.draw());
+
+    // Draw selected cell on top
+    if (this.hoveredCell) {
+      this.hoveredCell.draw();
+    }
   },
   mousePressed: function () {
-    console.log("Play mousePressed");
-    // Game.changeMode(GameState.MENU);
+    this.cells.forEach((cell) => {
+      if (cell.mouseOver(mouseX, mouseY)) {
+        this.selectedCell = cell;
+      }
+    });
+  },
+  mouseOver: function () {
+    this.hoveredCell = null;
+    this.cells.forEach((cell) => {
+      if (cell.mouseOver(mouseX, mouseY)) {
+        this.hoveredCell = cell;
+      }
+    });
+  },
+  mouseReleased: function () {
+    this.selectedCell = null;
   },
 };
 Game.handlers.play = PlayHandler;
