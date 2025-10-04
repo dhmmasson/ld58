@@ -89,6 +89,27 @@ const gridInfo = {
   },
 };
 
+function updateColor(cell) {
+  if (cell) {
+    let dx = mouseX - cell.boundingBox.cx;
+    let dy = mouseY - cell.boundingBox.cy;
+    // if the distance is too small, do not change color
+    let distance = sqrt(dx * dx + dy * dy);
+    console.log(distance, gridInfo.cellSize);
+    if (distance < gridInfo.cellSize / 4 || distance > gridInfo.cellSize) {
+      return cell.color;
+    }
+    let angle = atan2(dy, dx);
+    if (angle < 0) {
+      angle += TWO_PI;
+    }
+    // Determine the direction based on the angle
+    let direction = floor(angle / (PI / 2)) % 4;
+    return direction;
+  }
+  return cell.color;
+}
+
 const PlayHandler = {
   cells: [],
   selectedCell: null,
@@ -118,6 +139,33 @@ const PlayHandler = {
     if (this.hoveredCell) {
       this.hoveredCell.draw();
     }
+    if (this.selectedCell) {
+      ellipseMode(CENTER);
+      ellipse(
+        this.selectedCell.boundingBox.cx,
+        this.selectedCell.boundingBox.cy,
+        gridInfo.cellSize * 2,
+        gridInfo.cellSize * 2
+      );
+      noStroke();
+      fill(255, 204, 0, 150);
+      // Draw 4 arcs (sectors of 90 degrees) around the selected cell
+      let cx = this.selectedCell.boundingBox.cx;
+      let cy = this.selectedCell.boundingBox.cy;
+      let r = gridInfo.cellSize;
+      let angles = [0, HALF_PI, PI, PI + HALF_PI];
+      for (let i = 0; i < 4; i++) {
+        fill(colorPalette[i]);
+        arc(cx, cy, r * 2, r * 2, angles[i], angles[i] + HALF_PI, PIE);
+      }
+      fill(colorPalette[updateColor(this.selectedCell)]);
+      ellipse(
+        this.selectedCell.boundingBox.cx,
+        this.selectedCell.boundingBox.cy,
+        gridInfo.cellSize * 0.71,
+        gridInfo.cellSize * 0.71
+      );
+    }
   },
   mousePressed: function () {
     this.cells.forEach((cell) => {
@@ -135,6 +183,10 @@ const PlayHandler = {
     });
   },
   mouseReleased: function () {
+    // Compute the distance from the center of the selected cell to the mouse position
+    if (this.selectedCell) {
+      this.hoveredCell.color = updateColor(this.selectedCell);
+    }
     this.selectedCell = null;
   },
 };

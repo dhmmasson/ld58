@@ -1,4 +1,5 @@
 let colorPalette = ["#f79256", "#fbd1a2", "#7dcfb6", "#00b2ca"];
+
 class Cell {
   x; // position on the grid
   y; // position on the grid
@@ -16,7 +17,11 @@ class Cell {
       y: this.y * (gridInfo.cellSize + gridInfo.gap) + gridInfo.offsetY,
       width: gridInfo.cellSize,
       height: gridInfo.cellSize,
+      cx: 0,
+      cy: 0,
     };
+    this.boundingBox.cx = this.boundingBox.x + this.boundingBox.width / 2;
+    this.boundingBox.cy = this.boundingBox.y + this.boundingBox.height / 2;
   }
 
   draw() {
