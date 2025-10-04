@@ -34,7 +34,7 @@ function setup() {
   textAlign(CENTER, CENTER);
 
   background(0);
-  Game.changeMode(GameState.PLAY);
+  Game.changeMode(GameState.SPLASH);
 }
 
 function draw() {
@@ -62,59 +62,44 @@ function mouseMoved() {
   }
 }
 
+function keyPressed() {
+  // key ESC to return to menu
+  console.log(keyCode);
+  if (keyCode === 27) {
+    Game.changeMode(GameState.MENU);
+  }
+}
+
 const gridInfo = {
+  width: 720,
+  height: 720,
+  direction: "horizontal", // or vertical or both
   rows: 1,
   cols: 16,
   numberOfColors: 3,
   cellSize: 32,
-  gap: 8,
-  padding: 10,
+
   offsetX: 0,
   offsetY: 0,
   cellElements: [],
   resize: function () {
+    this.width = min(720, width);
+    this.height = min(720, height);
+
     // Compute the cell size to fit the grid in the canvas
     this.cellSize = min(
-      (width - 2 * this.padding - (this.cols - 1) * this.gap) / this.cols,
-      (height - 2 * this.padding - (this.rows - 1) * this.gap) / this.rows
+      this.width / (this.cols + 1),
+      this.height / (this.rows + 1)
     );
-    this.cellSize = floor(this.cellSize / 8) * 8; // round to multiple of 8
-    this.gap = 0;
+    this.cellSize = floor(this.cellSize / 4) * 4; // round to multiple of 8
+
     // Center the grid
-    this.offsetX =
-      (width - (this.cols * this.cellSize + (this.cols - 1) * this.gap)) / 2;
-    this.offsetY =
-      (height - (this.rows * this.cellSize + (this.rows - 1) * this.gap)) / 2;
+    this.offsetX = (this.width - this.cols * this.cellSize) / 2;
+    this.offsetY = (this.height - this.rows * this.cellSize) / 2;
     // Update bounding boxes of all cells
     this.cellElements.forEach((cell) => cell.updateBoundingBox(this));
   },
 };
-
-function updateColor(cell) {
-  if (cell) {
-    let dx = mouseX - cell.boundingBox.cx;
-    let dy = mouseY - cell.boundingBox.cy;
-    // if the distance is too small, do not change color
-    let distance = sqrt(dx * dx + dy * dy);
-
-    if (
-      distance < gridInfo.cellSize / 4 ||
-      distance > gridInfo.cellSize * 1.5
-    ) {
-      return cell.color;
-    }
-    let angle = atan2(dy, dx);
-    if (angle < 0) {
-      angle += TWO_PI;
-    }
-    // Determine the direction based on the angle
-    let direction =
-      floor(angle / ((2 * PI) / gridInfo.numberOfColors)) %
-      gridInfo.numberOfColors;
-    return direction;
-  }
-  return cell.color;
-}
 
 const PlayHandler = {
   cells: [],
@@ -122,17 +107,61 @@ const PlayHandler = {
   hoveredCell: null,
   enter: function () {
     console.log("Enter Play");
+
+    let currentLevel = Game.currentLevel;
+
     this.cells = [];
-    gridInfo.rows = 1;
-    gridInfo.cols = 16;
+    gridInfo.numberOfColors = currentLevel.numberOfColors;
+    let length = currentLevel.length;
+    gridInfo.direction = currentLevel.direction; // "horizontal", "vertical", "both", "1D"
+    if (gridInfo.direction == "1D") {
+      if (width < 360) {
+        gridInfo.direction = "vertical";
+        gridInfo.rows = length;
+        gridInfo.cols = 1;
+      } else {
+        gridInfo.direction = "horizontal";
+        gridInfo.rows = 1;
+        gridInfo.cols = length;
+      }
+    } else {
+      gridInfo.direction = "both";
+      gridInfo.rows = floor(length);
+      gridInfo.cols = ceil(length);
+    }
+
     gridInfo.resize();
     gridInfo.cellElements = this.cells;
 
+    let values = [];
     for (let y = 0; y < gridInfo.rows; y++) {
+      values.push([]);
       for (let x = 0; x < gridInfo.cols; x++) {
-        this.cells.push(
-          new Cell(x, y, floor(random(0, gridInfo.numberOfColors)))
-        );
+        values[y].push({
+          color: floor(random(0, gridInfo.numberOfColors)),
+        });
+      }
+    }
+
+    // Create cells, add an extra row/col that is identical to the first/last one
+
+    for (
+      let y = gridInfo.direction != "horizontal" ? -1 : 0;
+      y < gridInfo.rows + (gridInfo.direction != "horizontal" ? 1 : 0);
+      y++
+    ) {
+      for (
+        let x = gridInfo.direction != "vertical" ? -1 : 0;
+        x < gridInfo.cols + (gridInfo.direction != "vertical" ? 1 : 0);
+        x++
+      ) {
+        let sx = (gridInfo.cols + x) % gridInfo.cols;
+        let sy = (gridInfo.rows + y) % gridInfo.rows;
+        let value = values[sy][sx];
+        this.cells.push(new Cell(x, y, value));
+        if (x != sx || y != sy) {
+          this.cells[this.cells.length - 1].fixed = true;
+        }
       }
     }
 
@@ -141,8 +170,31 @@ const PlayHandler = {
   draw: function () {
     background(255);
     // Draw Grid
+    push();
+    beginClip();
+    rectMode(CORNER);
+    rect(
+      gridInfo.offsetX - gridInfo.cellSize / 2,
+      gridInfo.offsetY - gridInfo.cellSize / 2,
+      gridInfo.cols * gridInfo.cellSize + gridInfo.cellSize,
+      gridInfo.rows * gridInfo.cellSize + gridInfo.cellSize,
+      gridInfo.cellSize / 2
+    );
+    endClip();
+
     this.cells.forEach((cell) => cell.draw());
 
+    rectMode(CORNER);
+    noFill();
+    stroke(0);
+    strokeWeight(3);
+    rect(
+      gridInfo.offsetX,
+      gridInfo.offsetY,
+      gridInfo.cols * gridInfo.cellSize,
+      gridInfo.rows * gridInfo.cellSize
+    );
+    pop();
     // Draw selected cell on top
     if (this.hoveredCell) {
       this.hoveredCell.draw();
@@ -184,6 +236,7 @@ const PlayHandler = {
   },
   mousePressed: function () {
     this.cells.forEach((cell) => {
+      // if (cell.fixed) return;
       if (cell.mouseOver(mouseX, mouseY)) {
         this.selectedCell = cell;
         cell.selected = true;
@@ -195,6 +248,7 @@ const PlayHandler = {
       this.hoveredCell = null;
 
       this.cells.forEach((cell) => {
+        if (cell.fixed) return;
         cell.hovered = false;
         if (cell.mouseOver(mouseX, mouseY)) {
           this.hoveredCell = cell;
@@ -206,7 +260,7 @@ const PlayHandler = {
   mouseReleased: function () {
     // Compute the distance from the center of the selected cell to the mouse position
     if (this.selectedCell) {
-      this.selectedCell.color = updateColor(this.selectedCell);
+      this.selectedCell.value.color = updateColor(this.selectedCell);
       this.selectedCell.selected = false;
     }
 

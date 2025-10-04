@@ -7,16 +7,19 @@ class Cell {
   boundingBox; // for mouse interaction
   hovered = false;
   selected = false;
-  constructor(x, y, color = 0) {
+  fixed = false;
+  value = null;
+  constructor(x, y, value) {
     this.x = x;
     this.y = y;
-    this.color = color;
+    this.value = value;
+    this.color = value.color;
   }
 
   updateBoundingBox(gridInfo) {
     this.boundingBox = {
-      x: this.x * (gridInfo.cellSize + gridInfo.gap) + gridInfo.offsetX,
-      y: this.y * (gridInfo.cellSize + gridInfo.gap) + gridInfo.offsetY,
+      x: this.x * gridInfo.cellSize + gridInfo.offsetX,
+      y: this.y * gridInfo.cellSize + gridInfo.offsetY,
       width: gridInfo.cellSize,
       height: gridInfo.cellSize,
       cx: 0,
@@ -31,10 +34,10 @@ class Cell {
       stroke(255, 204, 0);
       strokeWeight(4);
     } else {
-      strokeWeight(1);
+      strokeWeight(2);
     }
-    stroke(0);
-    fill(colorPalette[this.color]);
+    stroke(this.fixed ? 150 : 0);
+    fill(colorPalette[this.value.color]);
     rect(
       this.boundingBox.x,
       this.boundingBox.y,
@@ -51,4 +54,27 @@ class Cell {
       my <= this.boundingBox.y + this.boundingBox.height
     );
   }
+}
+
+function updateColor(cell) {
+  if (cell) {
+    let dx = mouseX - cell.boundingBox.cx;
+    let dy = mouseY - cell.boundingBox.cy;
+    // if the distance is too small, do not change color
+    let distance = sqrt(dx * dx + dy * dy);
+
+    if (distance < gridInfo.cellSize / 4 || distance > gridInfo.cellSize * 5) {
+      return cell.color;
+    }
+    let angle = atan2(dy, dx);
+    if (angle < 0) {
+      angle += TWO_PI;
+    }
+    // Determine the direction based on the angle
+    let direction =
+      floor(angle / ((2 * PI) / gridInfo.numberOfColors)) %
+      gridInfo.numberOfColors;
+    return direction;
+  }
+  return cell.value.color;
 }
