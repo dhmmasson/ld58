@@ -11,14 +11,21 @@
     "href": "CHANGELOG.html",
     "title": "Tiles Collector",
     "section": "",
-    "text": "update title and splash screen text to “Tiles Collector”\ncompute row and column score\ngenerate a cool level 6\nupdate level to have default cell values\nadd level selection functionality and levels data\nadd tiling, border and clipping\nconstrain grid size\n\n\n\n\n\nimprove small screen accessibility\n\n\n\n\n\nextract color picker"
+    "text": "hint: add row and col hints of missing pairs\nscore: highlight duplicate pairs\nnavigation: add a link to the changelog\n\n\n\n\n\nscore: improve row and column scores lisibility\n\n\n\n\n\nscore: refactor the cell marking and row/column score display\nui: move colorPicker to cell.js"
+  },
+  {
+    "objectID": "CHANGELOG.html#v0.4.0-2025-10-05",
+    "href": "CHANGELOG.html#v0.4.0-2025-10-05",
+    "title": "Tiles Collector",
+    "section": "",
+    "text": "hint: add row and col hints of missing pairs\nscore: highlight duplicate pairs\nnavigation: add a link to the changelog\n\n\n\n\n\nscore: improve row and column scores lisibility\n\n\n\n\n\nscore: refactor the cell marking and row/column score display\nui: move colorPicker to cell.js"
   },
   {
     "objectID": "CHANGELOG.html#v0.3.0-2025-10-04",
     "href": "CHANGELOG.html#v0.3.0-2025-10-04",
     "title": "Tiles Collector",
-    "section": "",
-    "text": "update title and splash screen text to “Tiles Collector”\ncompute row and column score\ngenerate a cool level 6\nupdate level to have default cell values\nadd level selection functionality and levels data\nadd tiling, border and clipping\nconstrain grid size\n\n\n\n\n\nimprove small screen accessibility\n\n\n\n\n\nextract color picker"
+    "section": "v0.3.0 (2025-10-04)",
+    "text": "v0.3.0 (2025-10-04)\n\nFeat\n\nupdate title and splash screen text to “Tiles Collector”\ncompute row and column score\ngenerate a cool level 6\nupdate level to have default cell values\nadd level selection functionality and levels data\nadd tiling, border and clipping\nconstrain grid size\n\n\n\nFix\n\nimprove small screen accessibility\n\n\n\nRefactor\n\nextract color picker"
   },
   {
     "objectID": "CHANGELOG.html#v0.2.0-2025-10-04",
