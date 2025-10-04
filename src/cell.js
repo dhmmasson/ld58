@@ -3,7 +3,7 @@ let colorPalette = ["#f79256", "#fbd1a2", "#7dcfb6", "#00b2ca"];
 class Cell {
   x; // position on the grid
   y; // position on the grid
-  color; // index in the palette
+
   boundingBox; // for mouse interaction
   hovered = false;
   selected = false;
@@ -13,7 +13,9 @@ class Cell {
     this.x = x;
     this.y = y;
     this.value = value;
-    this.color = value.color;
+    if (isNaN(this.value.color)) {
+      this.value.color = -1;
+    }
   }
 
   updateBoundingBox(gridInfo) {
@@ -67,8 +69,8 @@ function updateColor(cell) {
     // if the distance is too small, do not change color
     let distance = sqrt(dx * dx + dy * dy);
 
-    if (distance < gridInfo.cellSize / 4 || distance > gridInfo.cellSize * 5) {
-      return cell.color;
+    if (distance < gridInfo.cellSize / 4 || distance > 100) {
+      return cell.value.color;
     }
     let angle = atan2(dy, dx);
     if (angle < 0) {
