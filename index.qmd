@@ -27,6 +27,6 @@ title-block-categories: true
 ---
 
 
-::: {#canvasContainer .g-col-9}
+::: {#canvasContainer}
 
 :::

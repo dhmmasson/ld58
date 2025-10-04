@@ -67,8 +67,8 @@ const gridInfo = {
   cols: 16,
   numberOfColors: 3,
   cellSize: 32,
-  gap: 8,
-  padding: 10,
+  gap: 0,
+  padding: 5,
   offsetX: 0,
   offsetY: 0,
   cellElements: [],
@@ -78,7 +78,7 @@ const gridInfo = {
       (width - 2 * this.padding - (this.cols - 1) * this.gap) / this.cols,
       (height - 2 * this.padding - (this.rows - 1) * this.gap) / this.rows
     );
-    this.cellSize = floor(this.cellSize / 8) * 8; // round to multiple of 8
+    this.cellSize = floor(this.cellSize / 4) * 4; // round to multiple of 8
     this.gap = 0;
     // Center the grid
     this.offsetX =
@@ -97,10 +97,7 @@ function updateColor(cell) {
     // if the distance is too small, do not change color
     let distance = sqrt(dx * dx + dy * dy);
 
-    if (
-      distance < gridInfo.cellSize / 4 ||
-      distance > gridInfo.cellSize * 1.5
-    ) {
+    if (distance < gridInfo.cellSize / 4 || distance > gridInfo.cellSize * 5) {
       return cell.color;
     }
     let angle = atan2(dy, dx);
@@ -123,7 +120,7 @@ const PlayHandler = {
   enter: function () {
     console.log("Enter Play");
     this.cells = [];
-    gridInfo.rows = 1;
+    gridInfo.rows = 16;
     gridInfo.cols = 16;
     gridInfo.resize();
     gridInfo.cellElements = this.cells;

@@ -34,11 +34,13 @@ format:
     theme: cosmo
     css: stylesheets/styles.css    
     toc: false
-    page-layout: full
+    page-layout: custom
     email-obfuscation: javascript
     appendix-cite-as: display
     title-block-style: manuscript
     license: "MIT"
+    gutter-width: 0rem
+
 
 
 
