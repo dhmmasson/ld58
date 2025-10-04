@@ -1,3 +1,20 @@
+## v0.4.0 (2025-10-05)
+
+### Feat
+
+- **hint**: add row and col hints of missing pairs
+- **score**: highlight duplicate pairs
+- **navigation**: add a link to the changelog
+
+### Fix
+
+- **score**: improve row and column scores lisibility
+
+### Refactor
+
+- **score**: refactor the cell marking and row/column score display
+- **ui**: move colorPicker to cell.js
+
 ## v0.3.0 (2025-10-04)
 
 ### Feat
