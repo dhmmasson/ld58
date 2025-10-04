@@ -1,4 +1,4 @@
-let colorPalette = ["#f72585", "#720026", "#3a0ca3", "#4361ee"];
+let colorPalette = ["#f79256", "#fbd1a2", "#7dcfb6", "#00b2ca"];
 class Cell {
   x; // position on the grid
   y; // position on the grid
