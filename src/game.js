@@ -134,11 +134,14 @@ const PlayHandler = {
     gridInfo.cellElements = this.cells;
 
     let values = [];
+    let i = 0;
     for (let y = 0; y < gridInfo.rows; y++) {
       values.push([]);
       for (let x = 0; x < gridInfo.cols; x++) {
         values[y].push({
-          color: floor(random(0, gridInfo.numberOfColors)),
+          color:
+            currentLevel.values[i++] ??
+            floor(random(0, gridInfo.numberOfColors)),
         });
       }
     }

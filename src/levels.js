@@ -5,6 +5,7 @@ const levels = [
     numberOfColors: 4,
     direction: "1D",
     length: 1,
+    values: [-1],
   },
   {
     id: 1,
@@ -12,6 +13,7 @@ const levels = [
     numberOfColors: 2,
     direction: "1D",
     length: 2,
+    values: [0, -1],
   },
   {
     id: 2,
@@ -19,6 +21,7 @@ const levels = [
     numberOfColors: 2,
     direction: "1D",
     length: 4,
+    values: [0, 1, -1, -1],
   },
   {
     id: 3,

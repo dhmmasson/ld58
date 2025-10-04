@@ -37,7 +37,11 @@ class Cell {
       strokeWeight(2);
     }
     stroke(this.fixed ? 150 : 0);
-    fill(colorPalette[this.value.color]);
+    if (this.value.color < 0) {
+      noFill();
+    } else {
+      fill(colorPalette[this.value.color]);
+    }
     rect(
       this.boundingBox.x,
       this.boundingBox.y,
