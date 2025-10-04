@@ -34,7 +34,7 @@ function setup() {
   textAlign(CENTER, CENTER);
 
   background(0);
-  Game.changeMode(GameState.PLAY);
+  Game.changeMode(GameState.SPLASH);
 }
 
 function draw() {
@@ -59,6 +59,14 @@ function mouseReleased() {
 function mouseMoved() {
   if (Game.currentHandler && Game.currentHandler.mouseOver) {
     Game.currentHandler.mouseOver();
+  }
+}
+
+function keyPressed() {
+  // key ESC to return to menu
+  console.log(keyCode);
+  if (keyCode === 27) {
+    Game.changeMode(GameState.MENU);
   }
 }
 
@@ -99,10 +107,13 @@ const PlayHandler = {
   hoveredCell: null,
   enter: function () {
     console.log("Enter Play");
+
+    let currentLevel = Game.currentLevel;
+
     this.cells = [];
-    gridInfo.numberOfColors = 4;
-    let length = gridInfo.numberOfColors * gridInfo.numberOfColors;
-    gridInfo.direction = "2D"; // "horizontal", "vertical", "both", "1D"
+    gridInfo.numberOfColors = currentLevel.numberOfColors;
+    let length = currentLevel.length;
+    gridInfo.direction = currentLevel.direction; // "horizontal", "vertical", "both", "1D"
     if (gridInfo.direction == "1D") {
       if (width < 360) {
         gridInfo.direction = "vertical";
