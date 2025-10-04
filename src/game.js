@@ -78,7 +78,7 @@ const gridInfo = {
   cols: 16,
   numberOfColors: 3,
   cellSize: 32,
-
+  hintSpace: "right", // or bottom or none
   offsetX: 0,
   offsetY: 0,
   cellElements: [],
@@ -95,7 +95,7 @@ const gridInfo = {
 
     // Center the grid
     this.offsetX = (this.width - this.cols * this.cellSize) / 2;
-    this.offsetY = (this.height - this.rows * this.cellSize) / 2;
+    this.offsetY = this.cellSize / 2 + 16;
     // Update bounding boxes of all cells
     this.cellElements.forEach((cell) => cell.updateBoundingBox(this));
   },
@@ -269,6 +269,148 @@ function drawScores(gridInfo) {
   }
 }
 
+function drawHint() {
+  // Draw a red rectangle if the
+  if (gridInfo.hintSpace === "none") return;
+  push();
+  rectMode(CORNER);
+  noFill();
+  stroke(255, 0, 0);
+  strokeWeight(4);
+  let left = 0;
+  let top = 0;
+  if (gridInfo.hintSpace === "right") {
+    left = gridInfo.offsetX + gridInfo.cols * gridInfo.cellSize + 64;
+  } else if (gridInfo.hintSpace === "bottom") {
+    top = gridInfo.offsetY + gridInfo.rows * gridInfo.cellSize + 64;
+  }
+  translate(left, top);
+
+  // Draw text
+  noStroke();
+  fill(255, 0, 0);
+
+  // Row collected tile pairs and missing pairs
+  // Get the row of the highligted cell
+  let highlightedRow = -1;
+  let highlightedCol = -1;
+  if (PlayHandler.hoveredCell) {
+    highlightedRow =
+      (PlayHandler.hoveredCell.y + gridInfo.rows) % gridInfo.rows;
+    highlightedCol =
+      (PlayHandler.hoveredCell.x + gridInfo.cols) % gridInfo.cols;
+
+    const totalPairs = gridInfo.numberOfColors * gridInfo.numberOfColors;
+    const margin = 4;
+    const pairSize = min(
+      48,
+      (width - left - 32 - margin * (totalPairs + 1)) / totalPairs
+    );
+    const y = 60;
+
+    textAlign(LEFT, TOP);
+    textSize(15);
+    fill(0);
+    if (gridInfo.direction != "vertical") {
+      text(`Row ${highlightedRow + 1}`, 32, 20);
+      gridInfo.rowScores[highlightedRow].forEach((pair) =>
+        drawDomino(pair, 32, y, pairSize, margin)
+      );
+    }
+    if (gridInfo.direction != "horizontal") {
+      text(`Col ${highlightedCol + 1}`, 32, pairSize + margin * 2 + 15 + 20);
+      gridInfo.colScores[highlightedCol].forEach((pair, index) =>
+        drawDomino(
+          pair,
+          32,
+          y + pairSize + margin + 20,
+          pairSize,
+          margin,
+          "vertical"
+        )
+      );
+    }
+  }
+
+  pop();
+}
+
+function drawDomino(
+  pair,
+  offsetX,
+  y,
+  pairSize,
+  margin,
+  orientation = "horizontal"
+) {
+  push();
+  // Draw the pair as a domino of two square with the right color
+  let color1 = pair.i >= 0 ? colorPalette[pair.i] : color(100);
+  let color2 = pair.j >= 0 ? colorPalette[pair.j] : color(100);
+
+  const x =
+    offsetX +
+    margin +
+    pairSize / 2 +
+    (pairSize + margin) * (pair.i * gridInfo.numberOfColors + pair.j);
+
+  // Draw the border
+
+  push();
+  {
+    beginClip();
+    {
+      rectMode(CENTER);
+      strokeWeight(2);
+      rect(x, y, pairSize, pairSize, 2);
+    }
+    endClip();
+    // Draw the two half squares inside
+    stroke(100);
+    strokeWeight(1);
+    rectMode(CORNER);
+    if (orientation === "vertical") {
+      // Top half
+      fill(color1);
+
+      rect(x - pairSize / 2, y - pairSize / 2, pairSize, pairSize / 2);
+      // Bottom half
+      fill(color2);
+      rect(x - pairSize / 2, y, pairSize, pairSize / 2);
+    } else {
+      // Left half
+      fill(color1);
+      rect(x - pairSize / 2, y - pairSize / 2, pairSize / 2, pairSize);
+      // Right half
+      fill(color2);
+      rect(x, y - pairSize / 2, pairSize / 2, pairSize);
+    }
+  }
+  pop();
+  rectMode(CENTER);
+
+  strokeWeight(1);
+  if (pair.count > 0) {
+    noFill();
+    stroke(10, 10, 10);
+  } else {
+    fill(100, 100, 100, 100);
+    stroke(200, 200, 100);
+  }
+  rect(x, y, pairSize, pairSize, 2);
+  // Draw the count in the middle
+  noStroke();
+  fill(50, 50, 50, 150);
+  circle(x, y - 1, 17);
+  fill(255);
+
+  textAlign(CENTER, CENTER);
+  textSize(14);
+  text(pair.count, x, y);
+  // Draw the count in the middle
+  pop();
+}
+
 const PlayHandler = {
   cells: [],
   selectedCell: null,
@@ -307,9 +449,7 @@ const PlayHandler = {
       values.push([]);
       for (let x = 0; x < gridInfo.cols; x++) {
         values[y].push({
-          color:
-            currentLevel.values[i++] ??
-            floor(random(0, gridInfo.numberOfColors)),
+          color: currentLevel.values[i++] ?? -1, // -1 means empty, otherwise a color index
         });
       }
     }
@@ -331,6 +471,9 @@ const PlayHandler = {
         let sy = (gridInfo.rows + y) % gridInfo.rows;
         let value = values[sy][sx];
         this.cells.push(new Cell(x, y, value));
+        if (value.color >= 0) {
+          this.cells[this.cells.length - 1].fixed = true;
+        }
         if (x != sx || y != sy) {
           this.cells[this.cells.length - 1].fixed = true;
         }
@@ -340,7 +483,7 @@ const PlayHandler = {
     this.cells.forEach((cell) => cell.updateBoundingBox(gridInfo));
   },
   draw: function () {
-    background(155);
+    background(255);
     drawGrid(this.cells);
 
     drawScores(gridInfo);
@@ -349,6 +492,7 @@ const PlayHandler = {
     this.hoveredCell?.draw();
     this.selectedCell?.draw();
     colorPicker(this.selectedCell);
+    drawHint();
   },
   mousePressed: function () {
     this.cells.forEach((cell) => {
@@ -390,10 +534,19 @@ Game.handlers.play = PlayHandler;
 function windowResized() {
   const size = select("#canvasContainer").size();
 
-  // Square Board
-  let minSize = min(size.width, size.height);
+  // the board should be square 640 and we need space for scores.
+  // on computer we can have a wide board, on mobile a tall one
+  if (size.width > 720 + 200) {
+    size.height = 720;
+    size.width = size.width;
+    gridInfo.hintSpace = "right";
+  } else {
+    size.width = size.width;
+    size.height = 720 + 200;
+    gridInfo.hintSpace = "bottom";
+  }
 
-  resizeCanvas(size.width, height);
+  resizeCanvas(size.width, size.height);
   gridInfo.resize();
   // Force Menu refresh
 }
