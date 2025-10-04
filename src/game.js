@@ -194,8 +194,7 @@ function drawGrid(cells) {
 function drawScores(gridInfo) {
   // At the end of the row draw the score pairs
   gridInfo.computeScores();
-  stroke(0);
-  strokeWeight(1);
+  noStroke(0);
   fill(0);
   textAlign(LEFT, CENTER);
   textSize(16);
