@@ -63,6 +63,8 @@ function mouseMoved() {
 }
 
 const gridInfo = {
+  width: 720,
+  height: 720,
   rows: 1,
   cols: 16,
   numberOfColors: 3,
@@ -73,18 +75,28 @@ const gridInfo = {
   offsetY: 0,
   cellElements: [],
   resize: function () {
+    if (width > 360) {
+      this.width = 360;
+      this.height = height;
+    } else {
+      this.width = width;
+      this.height = 360;
+    }
+
     // Compute the cell size to fit the grid in the canvas
     this.cellSize = min(
-      (width - 2 * this.padding - (this.cols - 1) * this.gap) / this.cols,
-      (height - 2 * this.padding - (this.rows - 1) * this.gap) / this.rows
+      (this.width - 2 * this.padding - (this.cols - 1) * this.gap) / this.cols,
+      (this.height - 2 * this.padding - (this.rows - 1) * this.gap) / this.rows
     );
     this.cellSize = floor(this.cellSize / 4) * 4; // round to multiple of 8
     this.gap = 0;
     // Center the grid
     this.offsetX =
-      (width - (this.cols * this.cellSize + (this.cols - 1) * this.gap)) / 2;
+      (this.width - (this.cols * this.cellSize + (this.cols - 1) * this.gap)) /
+      2;
     this.offsetY =
-      (height - (this.rows * this.cellSize + (this.rows - 1) * this.gap)) / 2;
+      (this.height - (this.rows * this.cellSize + (this.rows - 1) * this.gap)) /
+      2;
     // Update bounding boxes of all cells
     this.cellElements.forEach((cell) => cell.updateBoundingBox(this));
   },
@@ -120,8 +132,15 @@ const PlayHandler = {
   enter: function () {
     console.log("Enter Play");
     this.cells = [];
-    gridInfo.rows = 16;
-    gridInfo.cols = 16;
+    gridInfo.numberOfColors = 3;
+    let length = gridInfo.numberOfColors * gridInfo.numberOfColors + 1;
+    if (width < 360) {
+      gridInfo.rows = length;
+      gridInfo.cols = 1;
+    } else {
+      gridInfo.rows = 1;
+      gridInfo.cols = length;
+    }
     gridInfo.resize();
     gridInfo.cellElements = this.cells;
 
@@ -136,7 +155,7 @@ const PlayHandler = {
     this.cells.forEach((cell) => cell.updateBoundingBox(gridInfo));
   },
   draw: function () {
-    background(255);
+    background(205);
     // Draw Grid
     this.cells.forEach((cell) => cell.draw());
 
