@@ -5,6 +5,7 @@ const levels = [
     numberOfColors: 4,
     direction: "1D",
     length: 1,
+    values: [-1],
   },
   {
     id: 1,
@@ -12,6 +13,7 @@ const levels = [
     numberOfColors: 2,
     direction: "1D",
     length: 2,
+    values: [0, -1],
   },
   {
     id: 2,
@@ -19,6 +21,7 @@ const levels = [
     numberOfColors: 2,
     direction: "1D",
     length: 4,
+    values: [0, 1, -1, -1],
   },
   {
     id: 3,
@@ -42,6 +45,9 @@ const levels = [
     numberOfColors: 3,
     direction: "2D",
     length: 9,
-    values: [0, -1, -1, -1, 1, -1, -1, -1, 0],
+    values:
+      "001021122x2112200122001021112200102120x102112211220010112200102112200102102112200"
+        .split("")
+        .map((c) => +c),
   },
 ];

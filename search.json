@@ -9,29 +9,36 @@
   {
     "objectID": "CHANGELOG.html",
     "href": "CHANGELOG.html",
-    "title": "LD58",
+    "title": "Tiles Collector",
     "section": "",
-    "text": "add number of color parameter\nimprove hovering feedback\nimplement color selection\nadd hovering effect\nadd board resizing\nupdate color palette\ngame: add the first cell\nsplash: add a splash screen\n\n\n\n\n\nreadme: fix p5js badge\n\n\n\n\n\nmenu: move the menu to its own file\nsplash: move splash to its own file\nmove cell to its own file"
+    "text": "update title and splash screen text to “Tiles Collector”\ncompute row and column score\ngenerate a cool level 6\nupdate level to have default cell values\nadd level selection functionality and levels data\nadd tiling, border and clipping\nconstrain grid size\n\n\n\n\n\nimprove small screen accessibility\n\n\n\n\n\nextract color picker"
+  },
+  {
+    "objectID": "CHANGELOG.html#v0.3.0-2025-10-04",
+    "href": "CHANGELOG.html#v0.3.0-2025-10-04",
+    "title": "Tiles Collector",
+    "section": "",
+    "text": "update title and splash screen text to “Tiles Collector”\ncompute row and column score\ngenerate a cool level 6\nupdate level to have default cell values\nadd level selection functionality and levels data\nadd tiling, border and clipping\nconstrain grid size\n\n\n\n\n\nimprove small screen accessibility\n\n\n\n\n\nextract color picker"
   },
   {
     "objectID": "CHANGELOG.html#v0.2.0-2025-10-04",
     "href": "CHANGELOG.html#v0.2.0-2025-10-04",
-    "title": "LD58",
-    "section": "",
-    "text": "add number of color parameter\nimprove hovering feedback\nimplement color selection\nadd hovering effect\nadd board resizing\nupdate color palette\ngame: add the first cell\nsplash: add a splash screen\n\n\n\n\n\nreadme: fix p5js badge\n\n\n\n\n\nmenu: move the menu to its own file\nsplash: move splash to its own file\nmove cell to its own file"
+    "title": "Tiles Collector",
+    "section": "v0.2.0 (2025-10-04)",
+    "text": "v0.2.0 (2025-10-04)\n\nFeat\n\nadd number of color parameter\nimprove hovering feedback\nimplement color selection\nadd hovering effect\nadd board resizing\nupdate color palette\ngame: add the first cell\nsplash: add a splash screen\n\n\n\nFix\n\nreadme: fix p5js badge\n\n\n\nRefactor\n\nmenu: move the menu to its own file\nsplash: move splash to its own file\nmove cell to its own file"
   },
   {
     "objectID": "CHANGELOG.html#v0.1.0-2025-10-03",
     "href": "CHANGELOG.html#v0.1.0-2025-10-03",
-    "title": "LD58",
+    "title": "Tiles Collector",
     "section": "v0.1.0 (2025-10-03)",
     "text": "v0.1.0 (2025-10-03)\n\nFeat\n\nadd a splash screen\ncreate a quarto project"
   },
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "LD58",
+    "title": "Tiles Collector",
     "section": "",
-    "text": "ReuseMITCitationFor attribution, please cite this work as:\nMasson, Dimitri. 2025. “LD58.” LudumDare 58. https://dhmmasson.github.io/LD58/."
+    "text": "ReuseMITCitationFor attribution, please cite this work as:\nMasson, Dimitri. 2025. “Tiles Collector.” LudumDare\n58. https://dhmmasson.github.io/LD58/."
   }
 ]
