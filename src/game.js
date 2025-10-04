@@ -1,13 +1,15 @@
 const GameState = {
   SPLASH: "splash",
   MENU: "menu",
-  PLAY: "playing",
+  PLAY: "play",
 };
 
 const Game = {
   state: null,
   handlers: {
     splash: null,
+    menu: null,
+    play: null,
   },
   currentHandler: null,
   changeMode: function (newState) {
@@ -26,13 +28,13 @@ function setup() {
   const canvasElement = document.getElementById("canvasContainer");
   console.log(canvasElement);
   // create a biiiiig canvas to start with
-  createCanvas(10000, 10000).parent(canvasElement);
+  createCanvas(2 * 640, 480).parent(canvasElement);
   // resize it to fit the div
   windowResized();
   textAlign(CENTER, CENTER);
   console.log(width, height);
   background(0);
-  Game.changeMode(GameState.SPLASH);
+  Game.changeMode(GameState.PLAY);
 }
 
 function draw() {
@@ -91,8 +93,86 @@ const MenuHandler = {
   draw: function () {
     background(50, 100, 150);
   },
+  mousePressed: function () {
+    console.log("Menu mousePressed");
+    Game.changeMode(GameState.PLAY);
+  },
 };
 Game.handlers.menu = MenuHandler;
+
+colorPalette = ["#f72585", "#720026", "#3a0ca3", "#4361ee"];
+
+class Cell {
+  x; // position on the grid
+  y; // position on the grid
+  color; // index in the palette
+  boundingBox; // for mouse interaction
+  constructor(x, y, color = 0) {
+    this.x = x;
+    this.y = y;
+    this.color = color;
+  }
+
+  updateBoundingBox(gridInfo) {
+    this.boundingBox = {
+      x: this.x * (gridInfo.cellSize + gridInfo.gap) + gridInfo.offsetX,
+      y: this.y * (gridInfo.cellSize + gridInfo.gap) + gridInfo.offsetY,
+      width: gridInfo.cellSize,
+      height: gridInfo.cellSize,
+    };
+  }
+
+  draw() {
+    stroke(0);
+
+    fill(colorPalette[this.color]);
+    rect(
+      this.boundingBox.x,
+      this.boundingBox.y,
+      this.boundingBox.width,
+      this.boundingBox.height
+    );
+  }
+}
+
+const PlayHandler = {
+  cells: [],
+  gridInfo: {
+    rows: 1,
+    cols: 1,
+    cellSize: 32,
+    gap: 2,
+    offsetX: 0,
+    offsetY: 0,
+  },
+  enter: function () {
+    console.log("Enter Play");
+    this.cells = [];
+    this.gridInfo.offsetX =
+      (width -
+        (this.gridInfo.cols * this.gridInfo.cellSize +
+          (this.gridInfo.cols - 1) * this.gridInfo.gap)) /
+      2;
+    this.gridInfo.offsetY =
+      (height -
+        (this.gridInfo.rows * this.gridInfo.cellSize +
+          (this.gridInfo.rows - 1) * this.gridInfo.gap)) /
+      2;
+
+    this.cells.push(new Cell(0, 0));
+    this.cells.forEach((cell) => cell.updateBoundingBox(this.gridInfo));
+  },
+  draw: function () {
+    background(100, 150, 50);
+    // Draw Grid
+    this.cells.forEach((cell) => cell.draw());
+  },
+  mousePressed: function () {
+    console.log("Play mousePressed");
+    // Game.changeMode(GameState.MENU);
+  },
+};
+Game.handlers.play = PlayHandler;
 
 //Resize canvas to fill the div
 function windowResized() {
@@ -100,6 +180,7 @@ function windowResized() {
 
   // Square Board
   let minSize = min(size.width, size.height);
+  console.log(size.width, size.height, minSize);
   resizeCanvas(minSize, minSize);
   // Force Menu refresh
 }
