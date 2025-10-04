@@ -13,6 +13,8 @@ website:
       - href: index.qmd
         text: Home
       - about.qmd
+      - href: CHANGELOG.md
+        text: Changelog
   open-graph:   
     locale: "en_US"    
   twitter-card: 
