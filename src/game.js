@@ -99,6 +99,7 @@ const gridInfo = {
     // Update bounding boxes of all cells
     this.cellElements.forEach((cell) => cell.updateBoundingBox(this));
   },
+
   computeScores: function () {
     this.rowScores = [];
     this.colScores = [];
@@ -125,44 +126,6 @@ const gridInfo = {
   totalScore: 0,
   values: [],
 };
-
-function colorPicker(selectedCell) {
-  // Draw color picker around selected cell
-  if (selectedCell) {
-    ellipseMode(CENTER);
-    strokeWeight(2);
-    ellipse(
-      selectedCell.boundingBox.cx,
-      selectedCell.boundingBox.cy,
-      min(64, gridInfo.cellSize * 2),
-      min(64, gridInfo.cellSize * 2)
-    );
-    strokeWeight(1);
-    // noStroke();
-    fill(255, 204, 0, 150);
-    // Draw 4 arcs (sectors of 90 degrees) around the selected cell
-    let cx = selectedCell.boundingBox.cx;
-    let cy = selectedCell.boundingBox.cy;
-    let r = gridInfo.cellSize;
-    let angles = Array.from(
-      { length: gridInfo.numberOfColors + 1 },
-      (_, i) => (i * TWO_PI) / gridInfo.numberOfColors
-    );
-    for (let i = 0; i < gridInfo.numberOfColors; i++) {
-      fill(colorPalette[i]);
-      arc(cx, cy, r * 2, r * 2, angles[i], angles[i + 1], PIE);
-    }
-    fill(colorPalette[updateColor(selectedCell)]);
-    strokeWeight(2);
-    stroke(colorPalette[updateColor(selectedCell)]);
-    ellipse(
-      selectedCell.boundingBox.cx,
-      selectedCell.boundingBox.cy,
-      gridInfo.cellSize * 0.71,
-      gridInfo.cellSize * 0.71
-    );
-  }
-}
 
 function generateScorePairs() {
   let n = gridInfo.numberOfColors;
