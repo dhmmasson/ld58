@@ -191,75 +191,81 @@ function drawGrid(cells) {
   pop();
 }
 
+function computeScoreText(scores) {
+  return scores.map((row, i) => {
+    let x = gridInfo.cols * gridInfo.cellSize + gridInfo.cellSize / 2 + 10;
+    let y = (i + 0.5) * gridInfo.cellSize;
+    let score = row.reduce(
+      (acc, pair) => acc + (pair.count == 1 ? -1 : 0),
+      gridInfo.cols
+    );
+    return { score, x, y };
+  });
+}
+
+function markFrontier(scores, orientation = "horizontal") {
+  // For each cell in the grid, look at the 4 neighbors (wrap around), look in the scores
+  const values = gridInfo.values;
+  const cols = gridInfo.cols;
+  const rows = gridInfo.rows;
+  noStroke();
+  fill(0);
+  let check = (scores, a, b) =>
+    scores.find((p) => p.i == a && p.j == b)?.count != 1;
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      let current = values[r][c].color;
+      let up = values[(r - 1 + rows) % rows][c].color;
+      let down = values[(r + 1) % rows][c].color;
+      let left = values[r][(c - 1 + cols) % cols].color;
+      let right = values[r][(c + 1) % cols].color;
+
+      let cx = gridInfo.offsetX + (c + 0.5) * gridInfo.cellSize;
+      let cy = gridInfo.offsetY + (r + 0.5) * gridInfo.cellSize;
+
+      if (orientation !== "horizontal") {
+        // Vertical or both
+        if (check(gridInfo.colScores[c], current, down)) {
+          circle(cx, cy + gridInfo.cellSize / 2, 6);
+        }
+        if (check(gridInfo.colScores[c], current, up)) {
+          circle(cx, cy - gridInfo.cellSize / 2, 6);
+        }
+      }
+      if (orientation !== "vertical") {
+        // Horizontal or both
+        if (check(gridInfo.rowScores[r], current, right)) {
+          circle(cx + gridInfo.cellSize / 2, cy, 6);
+        }
+        if (check(gridInfo.rowScores[r], current, left)) {
+          circle(cx - gridInfo.cellSize / 2, cy, 6);
+        }
+      }
+    }
+  }
+}
+
 function drawScores(gridInfo) {
   // At the end of the row draw the score pairs
   gridInfo.computeScores();
   noStroke(0);
   fill(0);
   textAlign(LEFT, CENTER);
-  textSize(16);
+  textSize(11);
   // Draw the score pairs
   if (gridInfo.direction != "vertical") {
-    gridInfo.rowScores.forEach((row, i) => {
-      let x =
-        gridInfo.offsetX +
-        gridInfo.cols * gridInfo.cellSize +
-        gridInfo.cellSize / 2 +
-        10;
-      let y = gridInfo.offsetY + (i + 0.5) * gridInfo.cellSize;
-      let score = row.reduce((acc, pair) => acc + (pair.count == 1 ? 1 : 0), 0);
-      text(`${score} / ${gridInfo.cols}`, x, y);
+    textAlign(LEFT, CENTER);
+    computeScoreText(gridInfo.rowScores).forEach(({ score, x, y }) => {
+      text(`${score}`, gridInfo.offsetX + x, gridInfo.offsetY + y);
     });
-
-    // Harder, for each row of values identify if there is a unique pair, draw a circle on the border
-    for (let r = 0; r < gridInfo.rows; r++) {
-      let row = gridInfo.rowScores[r];
-      for (let c = -1; c < row.length; c++) {
-        current = gridInfo.values[r][(gridInfo.cols + c) % gridInfo.cols].color;
-        next = gridInfo.values[r][(c + 1) % gridInfo.cols].color;
-        if (current >= 0 && next >= 0) {
-          let pair = row.find((p) => p.i == current && p.j == next);
-          if (pair && pair.count != 1) {
-            let x = gridInfo.offsetX + (c + 1) * gridInfo.cellSize;
-            let y = gridInfo.offsetY + (r + 0.5) * gridInfo.cellSize;
-            fill(0, 0, 0);
-            noStroke();
-            circle(x, y, 8);
-          }
-        }
-      }
-    }
+    markFrontier(gridInfo.colScores, gridInfo.direction);
   }
   if (gridInfo.direction != "horizontal") {
-    gridInfo.colScores.forEach((col, i) => {
-      let x = gridInfo.offsetX + (i + 0.5) * gridInfo.cellSize;
-      let y =
-        gridInfo.offsetY +
-        gridInfo.rows * gridInfo.cellSize +
-        gridInfo.cellSize / 2 +
-        10;
-      let score = col.reduce((acc, pair) => acc + (pair.count == 1 ? 1 : 0), 0);
-      text(score, x, y);
+    textAlign(CENTER, CENTER);
+    computeScoreText(gridInfo.colScores).forEach(({ score, x, y }) => {
+      text(`${score}`, gridInfo.offsetX + y, gridInfo.offsetY + x);
     });
-
-    // Harder, for each col of values identify if there is a unique pair, draw a circle on the border
-    for (let c = 0; c < gridInfo.cols; c++) {
-      let col = gridInfo.colScores[c];
-      for (let r = -1; r < col.length; r++) {
-        current = gridInfo.values[(gridInfo.rows + r) % gridInfo.rows][c].color;
-        next = gridInfo.values[(r + 1) % gridInfo.rows][c].color;
-        if (current >= 0 && next >= 0) {
-          let pair = col.find((p) => p.i == current && p.j == next);
-          if (pair && pair.count != 1) {
-            let x = gridInfo.offsetX + (c + 0.5) * gridInfo.cellSize;
-            let y = gridInfo.offsetY + (r + 1) * gridInfo.cellSize;
-            fill(0, 0, 0);
-            noStroke();
-            circle(x, y, 8);
-          }
-        }
-      }
-    }
+    markFrontier(gridInfo.colScores, gridInfo.direction);
   }
 }
 
@@ -334,7 +340,7 @@ const PlayHandler = {
     this.cells.forEach((cell) => cell.updateBoundingBox(gridInfo));
   },
   draw: function () {
-    background(255);
+    background(155);
     drawGrid(this.cells);
 
     drawScores(gridInfo);
