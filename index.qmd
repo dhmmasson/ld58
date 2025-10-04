@@ -16,6 +16,7 @@ include-before-body:
     <script src="src/cell.js" type="text/javascript"></script>
     <script src="src/game.js" type="text/javascript"></script>
     <script src="src/SplashHandler.js" type="text/javascript"></script>
+    <script src="src/MenuHandler.js" type="text/javascript"></script>
 citation:
   type: "software"
   container-title: "LudumDare 58"
