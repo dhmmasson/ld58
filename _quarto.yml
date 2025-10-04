@@ -34,7 +34,7 @@ format:
     theme: cosmo
     css: stylesheets/styles.css    
     toc: false
-    page-layout: custom
+    page-layout: full
     email-obfuscation: javascript
     appendix-cite-as: display
     title-block-style: manuscript
