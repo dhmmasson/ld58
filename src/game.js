@@ -49,35 +49,54 @@ function mousePressed() {
   }
 }
 
+const gridInfo = {
+  rows: 1,
+  cols: 16,
+  cellSize: 32,
+  gap: 8,
+  padding: 10,
+  offsetX: 0,
+  offsetY: 0,
+  cellElements: [],
+  resize: function () {
+    // Compute the cell size to fit the grid in the canvas
+    this.cellSize = min(
+      (width - 2 * this.padding - (this.cols - 1) * this.gap) / this.cols,
+      (height - 2 * this.padding - (this.rows - 1) * this.gap) / this.rows
+    );
+    this.cellSize = floor(this.cellSize / 8) * 8; // round to multiple of 8
+    this.gap = 0;
+    // Center the grid
+    this.offsetX =
+      (width - (this.cols * this.cellSize + (this.cols - 1) * this.gap)) / 2;
+    this.offsetY =
+      (height - (this.rows * this.cellSize + (this.rows - 1) * this.gap)) / 2;
+    // Update bounding boxes of all cells
+    this.cellElements.forEach((cell) => cell.updateBoundingBox(this));
+  },
+};
+
 const PlayHandler = {
   cells: [],
-  gridInfo: {
-    rows: 1,
-    cols: 1,
-    cellSize: 32,
-    gap: 2,
-    offsetX: 0,
-    offsetY: 0,
-  },
+
   enter: function () {
     console.log("Enter Play");
     this.cells = [];
-    this.gridInfo.offsetX =
-      (width -
-        (this.gridInfo.cols * this.gridInfo.cellSize +
-          (this.gridInfo.cols - 1) * this.gridInfo.gap)) /
-      2;
-    this.gridInfo.offsetY =
-      (height -
-        (this.gridInfo.rows * this.gridInfo.cellSize +
-          (this.gridInfo.rows - 1) * this.gridInfo.gap)) /
-      2;
+    gridInfo.rows = 1;
+    gridInfo.cols = 16;
+    gridInfo.resize();
+    gridInfo.cellElements = this.cells;
 
-    this.cells.push(new Cell(0, 0));
-    this.cells.forEach((cell) => cell.updateBoundingBox(this.gridInfo));
+    for (let y = 0; y < gridInfo.rows; y++) {
+      for (let x = 0; x < gridInfo.cols; x++) {
+        this.cells.push(new Cell(x, y, floor(random(0, 4))));
+      }
+    }
+
+    this.cells.forEach((cell) => cell.updateBoundingBox(gridInfo));
   },
   draw: function () {
-    background(100, 150, 50);
+    background(255);
     // Draw Grid
     this.cells.forEach((cell) => cell.draw());
   },
@@ -94,7 +113,8 @@ function windowResized() {
 
   // Square Board
   let minSize = min(size.width, size.height);
-  console.log(size.width, size.height, minSize);
-  resizeCanvas(minSize, minSize);
+
+  resizeCanvas(size.width, height);
+  gridInfo.resize();
   // Force Menu refresh
 }
