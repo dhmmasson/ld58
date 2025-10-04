@@ -26,13 +26,13 @@ const Game = {
 function setup() {
   // console.clear();
   const canvasElement = document.getElementById("canvasContainer");
-  console.log(canvasElement);
+
   // create a biiiiig canvas to start with
   createCanvas(2 * 640, 480).parent(canvasElement);
   // resize it to fit the div
   windowResized();
   textAlign(CENTER, CENTER);
-  console.log(width, height);
+
   background(0);
   Game.changeMode(GameState.PLAY);
 }
@@ -95,8 +95,11 @@ function updateColor(cell) {
     let dy = mouseY - cell.boundingBox.cy;
     // if the distance is too small, do not change color
     let distance = sqrt(dx * dx + dy * dy);
-    console.log(distance, gridInfo.cellSize);
-    if (distance < gridInfo.cellSize / 4 || distance > gridInfo.cellSize) {
+
+    if (
+      distance < gridInfo.cellSize / 4 ||
+      distance > gridInfo.cellSize * 1.5
+    ) {
       return cell.color;
     }
     let angle = atan2(dy, dx);
@@ -141,13 +144,15 @@ const PlayHandler = {
     }
     if (this.selectedCell) {
       ellipseMode(CENTER);
+      strokeWeight(2);
       ellipse(
         this.selectedCell.boundingBox.cx,
         this.selectedCell.boundingBox.cy,
         gridInfo.cellSize * 2,
         gridInfo.cellSize * 2
       );
-      noStroke();
+      strokeWeight(1);
+      // noStroke();
       fill(255, 204, 0, 150);
       // Draw 4 arcs (sectors of 90 degrees) around the selected cell
       let cx = this.selectedCell.boundingBox.cx;
@@ -159,6 +164,8 @@ const PlayHandler = {
         arc(cx, cy, r * 2, r * 2, angles[i], angles[i] + HALF_PI, PIE);
       }
       fill(colorPalette[updateColor(this.selectedCell)]);
+      strokeWeight(2);
+      stroke(colorPalette[updateColor(this.selectedCell)]);
       ellipse(
         this.selectedCell.boundingBox.cx,
         this.selectedCell.boundingBox.cy,
@@ -171,22 +178,30 @@ const PlayHandler = {
     this.cells.forEach((cell) => {
       if (cell.mouseOver(mouseX, mouseY)) {
         this.selectedCell = cell;
+        cell.selected = true;
       }
     });
   },
   mouseOver: function () {
-    this.hoveredCell = null;
-    this.cells.forEach((cell) => {
-      if (cell.mouseOver(mouseX, mouseY)) {
-        this.hoveredCell = cell;
-      }
-    });
+    if (!this.selectedCell) {
+      this.hoveredCell = null;
+
+      this.cells.forEach((cell) => {
+        cell.hovered = false;
+        if (cell.mouseOver(mouseX, mouseY)) {
+          this.hoveredCell = cell;
+          cell.hovered = true;
+        }
+      });
+    }
   },
   mouseReleased: function () {
     // Compute the distance from the center of the selected cell to the mouse position
     if (this.selectedCell) {
-      this.hoveredCell.color = updateColor(this.selectedCell);
+      this.selectedCell.color = updateColor(this.selectedCell);
+      this.selectedCell.selected = false;
     }
+
     this.selectedCell = null;
   },
 };

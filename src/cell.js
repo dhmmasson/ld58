@@ -5,6 +5,8 @@ class Cell {
   y; // position on the grid
   color; // index in the palette
   boundingBox; // for mouse interaction
+  hovered = false;
+  selected = false;
   constructor(x, y, color = 0) {
     this.x = x;
     this.y = y;
@@ -25,7 +27,7 @@ class Cell {
   }
 
   draw() {
-    if (this.mouseOver(mouseX, mouseY)) {
+    if (this.hovered) {
       stroke(255, 204, 0);
       strokeWeight(4);
     } else {
