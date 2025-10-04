@@ -65,6 +65,7 @@ function mouseMoved() {
 const gridInfo = {
   rows: 1,
   cols: 16,
+  numberOfColors: 3,
   cellSize: 32,
   gap: 8,
   padding: 10,
@@ -107,7 +108,9 @@ function updateColor(cell) {
       angle += TWO_PI;
     }
     // Determine the direction based on the angle
-    let direction = floor(angle / (PI / 2)) % 4;
+    let direction =
+      floor(angle / ((2 * PI) / gridInfo.numberOfColors)) %
+      gridInfo.numberOfColors;
     return direction;
   }
   return cell.color;
@@ -127,7 +130,9 @@ const PlayHandler = {
 
     for (let y = 0; y < gridInfo.rows; y++) {
       for (let x = 0; x < gridInfo.cols; x++) {
-        this.cells.push(new Cell(x, y, floor(random(0, 4))));
+        this.cells.push(
+          new Cell(x, y, floor(random(0, gridInfo.numberOfColors)))
+        );
       }
     }
 
@@ -158,10 +163,13 @@ const PlayHandler = {
       let cx = this.selectedCell.boundingBox.cx;
       let cy = this.selectedCell.boundingBox.cy;
       let r = gridInfo.cellSize;
-      let angles = [0, HALF_PI, PI, PI + HALF_PI];
-      for (let i = 0; i < 4; i++) {
+      let angles = Array.from(
+        { length: gridInfo.numberOfColors + 1 },
+        (_, i) => (i * TWO_PI) / gridInfo.numberOfColors
+      );
+      for (let i = 0; i < gridInfo.numberOfColors; i++) {
         fill(colorPalette[i]);
-        arc(cx, cy, r * 2, r * 2, angles[i], angles[i] + HALF_PI, PIE);
+        arc(cx, cy, r * 2, r * 2, angles[i], angles[i + 1], PIE);
       }
       fill(colorPalette[updateColor(this.selectedCell)]);
       strokeWeight(2);
