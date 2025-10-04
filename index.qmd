@@ -15,6 +15,7 @@ include-before-body:
     <script src="libraries/p5/addons/p5.sound.min.js" type="text/javascript"></script>
     <script src="src/cell.js" type="text/javascript"></script>
     <script src="src/game.js" type="text/javascript"></script>
+    <script src="src/SplashHandler.js" type="text/javascript"></script>
 citation:
   type: "software"
   container-title: "LudumDare 58"
