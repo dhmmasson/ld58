@@ -208,9 +208,27 @@ function drawScores(gridInfo) {
         10;
       let y = gridInfo.offsetY + (i + 0.5) * gridInfo.cellSize;
       let score = row.reduce((acc, pair) => acc + (pair.count == 1 ? 1 : 0), 0);
-
-      text(score, x, y);
+      text(`${score} / ${gridInfo.cols}`, x, y);
     });
+
+    // Harder, for each row of values identify if there is a unique pair, draw a circle on the border
+    for (let r = 0; r < gridInfo.rows; r++) {
+      let row = gridInfo.rowScores[r];
+      for (let c = -1; c < row.length; c++) {
+        current = gridInfo.values[r][(gridInfo.cols + c) % gridInfo.cols].color;
+        next = gridInfo.values[r][(c + 1) % gridInfo.cols].color;
+        if (current >= 0 && next >= 0) {
+          let pair = row.find((p) => p.i == current && p.j == next);
+          if (pair && pair.count != 1) {
+            let x = gridInfo.offsetX + (c + 1) * gridInfo.cellSize;
+            let y = gridInfo.offsetY + (r + 0.5) * gridInfo.cellSize;
+            fill(0, 0, 0);
+            noStroke();
+            circle(x, y, 8);
+          }
+        }
+      }
+    }
   }
   if (gridInfo.direction != "horizontal") {
     gridInfo.colScores.forEach((col, i) => {
@@ -223,6 +241,25 @@ function drawScores(gridInfo) {
       let score = col.reduce((acc, pair) => acc + (pair.count == 1 ? 1 : 0), 0);
       text(score, x, y);
     });
+
+    // Harder, for each col of values identify if there is a unique pair, draw a circle on the border
+    for (let c = 0; c < gridInfo.cols; c++) {
+      let col = gridInfo.colScores[c];
+      for (let r = -1; r < col.length; r++) {
+        current = gridInfo.values[(gridInfo.rows + r) % gridInfo.rows][c].color;
+        next = gridInfo.values[(r + 1) % gridInfo.rows][c].color;
+        if (current >= 0 && next >= 0) {
+          let pair = col.find((p) => p.i == current && p.j == next);
+          if (pair && pair.count != 1) {
+            let x = gridInfo.offsetX + (c + 0.5) * gridInfo.cellSize;
+            let y = gridInfo.offsetY + (r + 1) * gridInfo.cellSize;
+            fill(0, 0, 0);
+            noStroke();
+            circle(x, y, 8);
+          }
+        }
+      }
+    }
   }
 }
 
