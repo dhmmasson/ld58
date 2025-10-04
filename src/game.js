@@ -34,7 +34,7 @@ function setup() {
   textAlign(CENTER, CENTER);
 
   background(0);
-  Game.changeMode(GameState.PLAY);
+  Game.changeMode(GameState.SPLASH);
 }
 
 function draw() {
