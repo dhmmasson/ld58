@@ -1,77 +1,267 @@
-// @title D
-// @by Dhmmasson
-// @license CC BY-NC-SA
+//@title beep-tea
+//@by Stuart Bray
+//@url https://soundcloud.com/stuart-j-bray
 
-const time = 1
 
-cpm(time*120/4)
 
-$drums: stack(
- s("bd - - - bd bd? - cr?").color("red"),
- s("cp:1").struct("- - x - - - x x?").color("yellow"),
- s("rim:1").struct("- - x - - - x x?").color("yellow").velocity(sine.slow(8)),
- s("tr808_sh").struct("x - x x x - x x x - x x x - x x").velocity(".8 - 1 .8 .8 - 1 .8 .8 - 1 .8 .8 - 1 .8").color("blue").swing(8).room(2).velocity(perlin.slow(16)),
- s("hh:4!8").color("white").velocity(".8 - 1 .8 .8 - 1 .8 .8 - 1 .8 .8 - 1 .8").velocity(sine.slow(16)),  
+// -------------- Drums
+var d1 = sound("RolandCompurhythm1000_mt").struct(  "1 [0 1] 0 0 0 <0 1> 0 0").gain(.5)
+var d2 = sound("OberheimDMX_mt").struct(            "0 0 1 1 0 0 1 0").gain(.5)
+var d3 = sound("AkaiMPC60_rim").struct(             "[0 1] 0 [0 1] 0 0 [0 1] [0 1] 0 ").gain(".5 .5 1 1.5")
+var d4 = sound("perc").struct(                      "0 0 1 0 0 0 0 0").gain(.5)
+var d5 = sound("AkaiMPC60_perc").struct(            "0 0 0 0 0 2*2 0 0 ")
+
+var d3x = sound("AkaiMPC60_rim").struct(            "0 0 0 1 0 1*2 <0 1*4> 1*<4 8> ")
+
+var db1 = sound("RolandCompurhythm1000_mt").struct( "1 0 0 0 0 0 0 0  1 0 0 0 0 0 0 0").slow(2)
+var db2 = sound("OberheimDMX_mt").struct(           "0 0 0 1 0 0 1 0  0 0 0 0 0 0 0 0").gain(.5).slow(2)
+var db3 = sound("AkaiMPC60_rim").struct(            "0 0 0 0 1*2 0 0 0  0 0 0 0 1*2 0 1 0").slow(2)
+
+var db3x = sound("AkaiMPC60_rim").struct(           "0 0 0 1 0 0 1 0  0 0 0 1 0 0 1*2 0").slow(2)
+
+var db4 = sound("AlesisSR16_cp").struct(            "0 0 1 0 0 0 1 0  0 0 1 0 0 0 1 0").slow(2)
+var db5 = sound("AkaiXR10_sd").struct(              "0 0 0 0 0 0 0 0  0 0 0 0 0 0 0 1").slow(2)
+var db6 = sound("AkaiMPC60_perc").struct(           "0 0 0 0 0 1*2 0 0  0 0 0 1*2 0 0 0 0").slow(2)
+
+
+var _drums_intro = stack( d1,  d3x  ).color("white") // build up
+var _drums1 =     stack(  d1,  d2,  d3,  d4, d5).color("white") // normal
+var _drums2 =     stack(  d1, db2, db3, db4, db5, db6).color("red") // break down
+
+var _drums3 =     stack(  db1, db6, db3x, d4).color("red")
+
+var chords1 = n(`<
+ [5 -  [6 5] [- 5] ] -
+ [4 -  [5 4] [- 4] ] -
+>`)
+var chords2 = n(`<
+ [3 - [4 3] [- 3]] -
+ [2 - [3 2] [- 2]] -
+>`)
+var _chords1 = chords1.sound("dantranh_vibrato").scale("c2:major").color("red").distort(2)
+var _chords2 = chords2.sound("dantranh_vibrato").scale("c2:major").color("red").distort(2)
+
+var chords3 = n(`<
+ [4 - - -]
+ [[5 7] - - [- 9]]
+ [[8 9] - - [- 8]]
+ [[7 8] - - [8 7]]
+>`)
+var chords4 = n(`<
+ [3 - - -]
+ [[5 7] - - -]
+ [[9 7] - - -]
+ [11 - - -]
+>`)
+var _chords3 = chords3.sound("dantranh_vibrato").scale("<c2,c3>:major").color("red").distort(2)
+var _chords4 = chords4.sound("dantranh_vibrato").scale("<c2,c3>:major").color("red").distort(2)
+
+var punch1 = n(`<
+ [5,7,9] [5,7,10] [4,7,9] [4,7,10]
+>`)
+var punch2 = n(`<
+ [3,5,7] [3,5,8] [2,5,8] [2,5,9]
+>`)
+var punch3 = n(`<
+ [3,5,7] [3,5,8] [2,4#,6] [2,4#,9] 
+>`)
+var punch4 = n(`<
+ [3,5,10] [4,6,8] [5,7,9] [5,7,11] 
+>`)
+var _punch1 = punch1.sound("gm_shamisen").scale("c3:major").color("orange").release(.4).clip(1.5).gain(3)
+  .struct("0 1*2 0 0 0 1@2 0 ") //1 0 [0 1] 0
+var _punch2 = punch2.sound("gm_shamisen").scale("c3:major").color("orange").release(.4).clip(1.5).gain(3)
+  .struct("0 1*2 0 0 0 1@2 0 ")
+
+var _punch3 = punch3.sound("gm_shamisen").scale("c3:major").color("orange").release(.4).clip(1.5).gain(3)
+  .struct("0 0 0 1 0 0 1 0") //1 0 [0 1] 0
+var _punch4 = punch4.sound("gm_shamisen").scale("c3:major").color("orange").release(.4).clip(1.5).gain(3)
+  .struct("0 0 0 1 0 0 1 0 ")
+
+var sweep1 = n(`<
+ 5 5 4 4
+>`)
+var sweep2 = n(`<
+ 3 3 2 2
+>`)
+var _sweep1 = sweep1.sound(" harmonica").scale("c2:major").color("green").gain(2).release(.1).vibrato(8)
+var _sweep2 = sweep2.sound(" harmonica").scale("c2:major").color("green").gain(2).release(.1).vibrato(8)
+
+var sweep3 = n(`<
+ 4 5 4# 2
+>`)
+var sweep4 = n(`<
+ 3 5 7 -
+>`)
+var _sweep3 = sweep3.sound(" harmonica").scale("c1:major").color("green").gain(2).release(.1).vibrato(16).attack(0)
+var _sweep4 = sweep4.sound(" harmonica").scale("c1:major").color("green").gain(2).release(.1).vibrato(16).attack(0)
+
+var lead1 = n(`<
+ [[5 6 5 4 5 4 2 1] [4 1 5 1 5 1 5 1]] -
+ [[4 1 5 1 6 7 8 1] [4 1 5 1 5 1 5 1]] -
+>`)
+var lead2 = n(`<
+ [[5 6 5 4 5 4 2 1] [4 1 5 1 5 1 5 1]] -
+ [[4 1 5 1 6 7 8 1] [4 1 5 1 5 1 5 1]] -
+>`)
+var _lead1 = lead1.sound("gm_marimba").scale("c4:major").color("yellow").gain(2.5)
+var _lead2 = lead2.sound("gm_marimba").scale("c4:major").color("yellow").gain(2.5)
+
+var lead3 = n(`<
+ [- - [5 6 7 -] -]
+ [- - [5 4 5 -] -]
+ [- - [5 6 7 -] -]
+ [- - [5 4 5 -] -]
+>`)
+var lead4 = n(`<
+ [- - [5 6 7 -] -]
+ [- - [8 7 8 -] -]
+ [- - [6 7 8 -] -]
+ [- - [8 9 8 -] -]
+>`)
+var _lead3 = lead3.sound("gm_marimba").scale("c4:major").color("yellow").gain(1.5).room(2)
+var _lead4 = lead4.sound("gm_marimba").scale("c4:major").color("yellow").gain(1.5).room(2)
+
+
+
+
+var top1 = n(`<
+ [5@3 -]
+ [4 5 - 6]
+ [7 4@3]
+ [3 2 - 4]
+>`)
+var top2 = n(`<
+ [3@3 -]
+ [4 3 - 1]
+ [3 5@2 7]
+ [6 2 - 7]
+>`)
+var _top1 = top1.sound("gm_french_horn").scale("<c3,c4>:major").color("cyan").gain(2)
+var _top2 = top2.sound("gm_french_horn").scale("<c3,c4>:major").color("cyan").gain(2)
+
+var top3 = n(`<
+ [- - 4 3]
+ [- - 4 5]
+ [- - 9 7]
+ [- - 10 9]
+>`)
+var top4 = n(`<
+ [- - 4 5]
+ [- - 5 7]
+ [- - 7@2]
+ [- - - -]
+>`)
+var _top3 = top3.sound("gm_french_horn").scale("<c3,c4>:major").color("cyan").gain(2)
+var _top4 = top4.sound("gm_french_horn").scale("<c3,c4>:major").color("cyan").gain(2)
+
+
+
+var M = 1;
+arrange(
+  [M*2, stack(    
+    _drums_intro,
+  )],
+  [M*4, stack(    
+    _drums1,
+    _chords1, _sweep1,
+  )],
+  [M*4, stack(
+    _drums1,
+    _chords2, _sweep2,
+  )],
+  [0*4, stack(    
+    _drums1, 
+    _chords1,  _punch1, _sweep1,
+  )],
+  [0*4, stack(
+    _drums1,
+    _chords2, _punch2, _sweep2,
+  )],
+  [M*4, stack(    
+    _drums1,
+    _chords1,  _punch1,  _lead1,    _sweep1,
+  )],
+  [M*4, stack(
+    _drums1,
+    _chords2,  _punch2,    _lead2,    _sweep2,
+  )],
   
-)
-  .gain(.3)._pianoroll()
-
-
-addVoicings('dimitri', {
-  '': ['0 4 7', '0 12 16 7'],         // basic major triad voicing (D F# A)
-  'sus': ['0 5 8'],     // Dsus (D G Bb)
-  'p': ['0 6 9'],        // C+ (C F# A)
-  '6': ['0 9 12'],      // Bb6 (Bb D G Bb)
-  'inv': ['0 9 12']      // Bb6 (Bb D G Bb)
-})
-
-let sequences = [
-"d5  -  -   -  g4 a4  g4 - ",
-"f#4 d4 f#4 g4 a4 bb4 -  - ",
-"g4  a4 g4  -  g5 a5  g5 -",
-"f#4  g4 f#4  -  g4  a4 g4 -",
-"f#4 d4 f#4 g4 a4 bb4 a4 g4",
-"-   -  -   -  -  d5  -  g5",
-"-   -  d4   -  -  d5  -  - "
+  [M*2, stack(
+    _drums2,
+  )],
+  [M*4, stack(    // Everything so far.
+    _drums2,
+    _chords1.transpose(-12),
+    _punch1,
+    _top1, // cyan
+    _sweep1.transpose(-12),
+  )],
+  [M*4, stack(
+    _drums2,    _chords2.transpose(-12),
+    _punch2,    _top2,
+    _sweep2.transpose(-12),
+  )],
+  [M*4, stack(    // dial back a little
+    _drums2,    _chords1,    _punch1,
+    _top1, _lead3, // yellow triples
+  )],
+  [M*4, stack(
+    _drums2,    _chords2,
+    _punch2,    _top2, _lead4,
+  )],  
   
-] 
-$: stack(
-  n("[0,1,2]")
-  .arp("<0 1 [1,2]@6 0>*8")
-  .struct("<x@3  x?  x@3  x?>*2")
-   
-  .chord("<Dsus Cp Bb6 Ainv>/4").dict('dimitri').mode("root")
-  .anchor("<D2 C2 Bb1 A1>/4").voicing().s("piano:3").color("yellow").hpf(140),
-
+  [M*4, stack(    // muffle
+    _drums3.lpf("1500 3000 1000"),
+    _punch1.hpf(1500),
+    _lead3.echo(3, 1/4, .8),
+  )],
+  [M*4, stack(
+    _drums3.lpf("1500 3000 1000"),
+    _punch2.hpf(1500),
+    _lead4.echo(3, 1/4, .8),
+  )],
+  [M*2, stack( // Break it down
+    _drums3,
+  )],
   
-  note(chooseCycles(...sequences).someCycles(rev)).s("piano").echo(3, 1/6, slider(0.53)).color("blue").hpf(140).velocity(perlin.range(.4,.6).fast(2)),
-  note(chooseCycles(...sequences).someCycles(rev)).someCyclesBy(slider(0.492),x=>x.undegradeBy(1)).degradeBy(.2).clip(.5).transpose("0").s("gm_clarinet").color("red"),
-  note("<D2 C2 Bb1 A1>/4").transpose("8P").s("gm_clarinet").velocity(sine.slow(2).range(.3,.6)).orbit(4).color("white").orbit(4),
-  note("<D2 C2 Bb1 A1>/4").s("gm_contrabass").velocity(sine.slow(2).range(.4,.8)).orbit(4).color("white").orbit(4),
-  note("<D2 C2 Bb1 A1>!4/4").transpose("<0 8P>*4").s("gm_contrabass").clip(.6).velocity(sine.slow(2).range(.4,.8)).color("red").lpf(300)
+  [1*4, stack(    // Bring it back in
+    _drums3,    _chords3,    _punch3,
+     //_top3.transpose(-12).gain(.7), // cyan
+  )],
+  [1*4, stack(
+    _drums3,    _chords4,    _punch4,
+     //_top4.transpose(-12).gain(.7),
+  )],    
   
+  [1*4, stack(
+    _drums3,    _chords3,    _punch3,
+    _top3, // cyan
+    _sweep3,
+  )],
+  [1*4, stack(
+    _drums3,    _chords4,    _punch4,
+    _top4,    
+    _sweep4,
+  )],    
   
-  )
-  // .delay(slider(0.027))
-  .compressor("-20:20:10:.002:.02")
-  .postgain(slider(0.214))
-  ._pianoroll({labels:true})
+  [M*4, stack(    // Play the best bit again
+    _drums2,
+    _chords1.transpose(-12),
+    _punch1,
+    _top1, // cyan
+    _sweep1.transpose(-12),
+  )],
+  [M*4, stack(
+    _drums2,
+    _chords2.transpose(-12),
+    _punch2,
+    _top2,
+    _sweep2.transpose(-12),
+  )],
+  
+  [M*2, _drums_intro], // finish with the intro.
 
-// let violins = [
-//   "<a4 g4 a4 d5 a4 g4 a4 d5>*12",
-//   "<g4 gb4 g4 d5 g4 gb4 g4 d5>*12" ,
-//  "<a4 g4 a4 d5 a4 g4 a4 d5>*13",
-//   "<g4 gb4 g4 d5 g4 gb4 g4 d5>*13" ,
-// ]
-
-// $: note(chooseCycles(...violins)).s("gm_string_ensemble_1:2")
-//   .velocity("<.6 1 .8 .6>*12")
-//   .clip(1.2)
-//   .gain( perlin.slow(16).range(.5,2))
-//   .postgain(slider(0.414))
-//   .pan(sine.slow(2).range(.2,.8))
-//   ._pianoroll({labels:true})
-
-
-
-all( x => x.speed( 432 / 440 ))
+  [1,silence]
+).punchcard()
+  

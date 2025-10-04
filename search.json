@@ -11,14 +11,21 @@
     "href": "CHANGELOG.html",
     "title": "LD58",
     "section": "",
-    "text": "add a splash screen\ncreate a quarto project"
+    "text": "add number of color parameter\nimprove hovering feedback\nimplement color selection\nadd hovering effect\nadd board resizing\nupdate color palette\ngame: add the first cell\nsplash: add a splash screen\n\n\n\n\n\nreadme: fix p5js badge\n\n\n\n\n\nmenu: move the menu to its own file\nsplash: move splash to its own file\nmove cell to its own file"
+  },
+  {
+    "objectID": "CHANGELOG.html#v0.2.0-2025-10-04",
+    "href": "CHANGELOG.html#v0.2.0-2025-10-04",
+    "title": "LD58",
+    "section": "",
+    "text": "add number of color parameter\nimprove hovering feedback\nimplement color selection\nadd hovering effect\nadd board resizing\nupdate color palette\ngame: add the first cell\nsplash: add a splash screen\n\n\n\n\n\nreadme: fix p5js badge\n\n\n\n\n\nmenu: move the menu to its own file\nsplash: move splash to its own file\nmove cell to its own file"
   },
   {
     "objectID": "CHANGELOG.html#v0.1.0-2025-10-03",
     "href": "CHANGELOG.html#v0.1.0-2025-10-03",
     "title": "LD58",
-    "section": "",
-    "text": "add a splash screen\ncreate a quarto project"
+    "section": "v0.1.0 (2025-10-03)",
+    "text": "v0.1.0 (2025-10-03)\n\nFeat\n\nadd a splash screen\ncreate a quarto project"
   },
   {
     "objectID": "index.html",
