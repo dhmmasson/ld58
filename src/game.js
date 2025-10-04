@@ -100,41 +100,6 @@ const MenuHandler = {
 };
 Game.handlers.menu = MenuHandler;
 
-colorPalette = ["#f72585", "#720026", "#3a0ca3", "#4361ee"];
-
-class Cell {
-  x; // position on the grid
-  y; // position on the grid
-  color; // index in the palette
-  boundingBox; // for mouse interaction
-  constructor(x, y, color = 0) {
-    this.x = x;
-    this.y = y;
-    this.color = color;
-  }
-
-  updateBoundingBox(gridInfo) {
-    this.boundingBox = {
-      x: this.x * (gridInfo.cellSize + gridInfo.gap) + gridInfo.offsetX,
-      y: this.y * (gridInfo.cellSize + gridInfo.gap) + gridInfo.offsetY,
-      width: gridInfo.cellSize,
-      height: gridInfo.cellSize,
-    };
-  }
-
-  draw() {
-    stroke(0);
-
-    fill(colorPalette[this.color]);
-    rect(
-      this.boundingBox.x,
-      this.boundingBox.y,
-      this.boundingBox.width,
-      this.boundingBox.height
-    );
-  }
-}
-
 const PlayHandler = {
   cells: [],
   gridInfo: {
