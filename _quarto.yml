@@ -20,7 +20,7 @@ website:
   twitter-card: 
     card-style: "summary_large_image"
     creator: "@dhmmasson"
-    image: "assets/splash.png"
+    image: "assets/splash.jpg"
     image-width: 800
     image-height: 418
   page-footer: 
