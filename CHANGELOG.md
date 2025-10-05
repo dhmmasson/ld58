@@ -1,3 +1,14 @@
+## v0.6.0 (2025-10-05)
+
+### Feat
+
+- include info box at beggining and end of levels
+- set tutorial title
+
+### Fix
+
+- set a maximum size for the color picker
+
 ## v0.5.0 (2025-10-05)
 
 ### Feat
