@@ -386,6 +386,11 @@ function drawHint() {
     52
   );
 
+  createButton("Submit Score")
+    .position(left + 38 + 390, game.offsetTop + top + 52 - 7)
+    .mousePressed(() => {
+      Game.currentLevel.over = true;
+    });
   pop();
 }
 
@@ -594,11 +599,15 @@ const PlayHandler = {
       gridInfo.computeScores();
       if (Game.currentLevel.end?.check(gridInfo)) {
         Game.endTime = millis();
+        Game.currentLevel.score = gridInfo.totalScore;
+        Game.currentLevel.time = Math.floor(
+          (Game.endTime - Game.startTime) / 1000
+        );
         console.log(
           "Level complete in ",
           (Game.endTime - Game.startTime) / 1000
         );
-        if (Game.currentLevel.leaderboard == "fastest") {
+        if (Game.currentLevel.highscoreType == "time") {
           infoBox(
             "Level Complete!",
             `You completed the level in ${
@@ -607,7 +616,8 @@ const PlayHandler = {
             Submit your score to the leaderboard!`,
             null,
             false,
-            Game.currentLevel.end?.info.nextLevel ?? null
+            null,
+            Game.currentLevel.leaderBoard
           );
         } else {
           infoBox(

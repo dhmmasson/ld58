@@ -89,18 +89,34 @@ function openMenu() {
       let level = null;
       document.getElementById("daily1D").onclick = () => {
         level = generateLevel("1D", 4, seed);
+        level.values = [1, 3, 0, 3, 3, 2, 2, 1, 1, 2, 0, 0, 1, 0, 2, -1];
         Game.currentLevel = level;
+        Game.currentLevel.highscoreType = "time";
+        Game.currentLevel.leaderBoard = "daily1D";
+        Game.currentLevel.end = {
+          check: (gridInfo) => gridInfo.totalScore == 4 * 4,
+        };
         menu.remove();
         Game.changeMode(GameState.PLAY);
       };
       document.getElementById("daily2D3").onclick = () => {
         level = generateLevel("2D", 3, seed);
         Game.currentLevel = level;
+        Game.currentLevel.highscoreType = "time";
+        Game.currentLevel.leaderBoard = "daily2D3";
+        Game.currentLevel.end = {
+          check: (gridInfo) => Game.currentLevel.over,
+        };
         menu.remove();
         Game.changeMode(GameState.PLAY);
       };
       document.getElementById("daily2D4").onclick = () => {
         Game.currentLevel = generateLevel("2D", 4, seed);
+        Game.currentLevel.highscoreType = "time";
+        Game.currentLevel.leaderBoard = "daily2D4";
+        Game.currentLevel.end = {
+          check: (gridInfo) => Game.currentLevel.over,
+        };
         menu.remove();
         Game.changeMode(GameState.PLAY);
       };
