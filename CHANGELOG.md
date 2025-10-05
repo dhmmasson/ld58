@@ -1,3 +1,11 @@
+## v0.7.0 (2025-10-05)
+
+### Feat
+
+- add sandbox mode
+- add daily challenge
+- **levels**: add random level generation
+
 ## v0.6.0 (2025-10-05)
 
 ### Feat
