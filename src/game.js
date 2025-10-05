@@ -303,9 +303,9 @@ function drawHint() {
     0,
     gridInfo.hintSpace === "bottom"
       ? width - left
-      : max(400, (pairSize + margin) * totalPairs + 64),
+      : max(440, (pairSize + margin) * totalPairs + 64 + 40),
 
-    60 + pairSize + margin + 20 + 32
+    60 + pairSize * 2 + 20 + margin + 20 + 32
   );
   // Draw text
   noStroke();
@@ -357,13 +357,13 @@ function drawHint() {
           gridInfo.colScores[highlightedCol].filter((pair) => pair.count == 1)
             .length
         } `,
-        32,
+        38,
         offsetY + pairSize + margin * 2 + 15 + 20
       );
       gridInfo.colScores[highlightedCol].forEach((pair, index) =>
         drawDomino(
           pair,
-          32,
+          38,
           offsetY + y + pairSize + margin + 20,
           pairSize,
           margin,
