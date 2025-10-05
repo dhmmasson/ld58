@@ -385,13 +385,13 @@ function drawHint() {
     38,
     52
   );
-
-  createButton("Submit Score")
-    .position(left + 38 + 390, game.offsetTop + top + 52 - 7)
-    .mousePressed(() => {
-      Game.currentLevel.over = true;
-      endLevel();
-    });
+  if (Game.currentLevel.highscoreType)
+    createButton("Submit Score")
+      .position(left + 38 + 390, game.offsetTop + top + 52 - 7)
+      .mousePressed(() => {
+        Game.currentLevel.over = true;
+        endLevel();
+      });
   pop();
 }
 
@@ -613,6 +613,7 @@ function endLevel(nextLevel = null) {
   Game.currentLevel.time = Math.floor((Game.endTime - Game.startTime) / 1000);
   console.log("Level complete in ", (Game.endTime - Game.startTime) / 1000);
   if (Game.currentLevel.highscoreType == "time") {
+    Game.currentLevel.over = false;
     infoBox(
       "Level Complete!",
       `You completed the level in ${
