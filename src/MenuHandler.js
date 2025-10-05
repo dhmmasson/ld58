@@ -118,13 +118,24 @@ function openMenu() {
 
       // Sandbox button
       document.getElementById("sandboxBtn").onclick = () => {
-        Game.startSandbox({
-          colors: parseInt(document.getElementById("colorSelect").value),
-          dimension: document.getElementById("dimSelect").value,
-          scoreType: Array.from(
-            document.querySelectorAll('input[name="scoreType"]:checked')
-          ).map((cb) => cb.value),
-        });
+        let n = parseInt(document.getElementById("colorSelect").value);
+        let direction = document.getElementById("dimSelect").value;
+        let length = n * n;
+        let level = {
+          id: 999,
+          name: `Sandbox_${n}_${direction}`,
+          numberOfColors: n,
+          direction,
+          length,
+          values: [],
+        };
+
+        // scoreType: Array.from(
+        //     document.querySelectorAll('input[name="scoreType"]:checked')
+        //   ).map((cb) => cb.value),
+        Game.currentLevel = level;
+        //close the modal
+
         menu.remove();
         Game.changeMode(GameState.PLAY);
       };
