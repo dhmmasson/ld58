@@ -5,11 +5,12 @@ project:
   resources: 
     - assets/*.png
     - assets/*.jpg
+    - assets/*.html
 
 website:
   title: "Tiles Collector"
   description: "My Entry for Ludum Dare 58. A game made in 48 hours."
-  site-url: "https://dhmmasson.github.io/ld58"
+  site-url: "https://dhmmasson.github.io/tilesCollector/"
   favicon: assets/favicon.png
   navbar:
     left:
