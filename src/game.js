@@ -25,7 +25,7 @@ const Game = {
 
 function setup() {
   // console.clear();
-  const canvasElement = document.getElementById("canvasContainer");
+  const canvasElement = document.getElementById("game");
 
   // create a biiiiig canvas to start with
   createCanvas(2 * 640, 640).parent(canvasElement);
@@ -532,7 +532,7 @@ Game.handlers.play = PlayHandler;
 
 //Resize canvas to fill the div
 function windowResized() {
-  const size = select("#canvasContainer").size();
+  const size = select("#game").size();
 
   // the board should be square 640 and we need space for scores.
   // on computer we can have a wide board, on mobile a tall one
