@@ -47,7 +47,7 @@ const levels = [
         title: "Well done!",
         text: `You created your first pair!<br>
         Actually, you created two pairs at once: Orange-Yellow and Yellow-Orange!<br> 
-        Imagine the frise repeating infinitely in both directions... So we count`,
+        Imagine the frise repeating infinitely in both directions... So we count the pair that is formed by the tiles at the edges.<br>`,
         image: "assets/tutorial2_end.png",
         closeOnClick: true,
         nextLevel: 2,
