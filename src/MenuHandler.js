@@ -37,6 +37,7 @@ const buttons = levels.map((level, index) => {
 const MenuHandler = {
   enter: function () {
     console.log("Enter Menu");
+    removeElements();
     openMenu();
   },
   draw: function () {
