@@ -385,12 +385,13 @@ function drawHint() {
     38,
     52
   );
-
-  createButton("Submit Score")
-    .position(left + 38 + 390, game.offsetTop + top + 52 - 7)
-    .mousePressed(() => {
-      Game.currentLevel.over = true;
-    });
+  if (Game.currentLevel.highscoreType)
+    createButton("Submit Score")
+      .position(left + 38 + 390, game.offsetTop + top + 52 - 7)
+      .mousePressed(() => {
+        Game.currentLevel.over = true;
+        endLevel();
+      });
   pop();
 }
 
@@ -598,42 +599,42 @@ const PlayHandler = {
       this.selectedCell.selected = false;
       gridInfo.computeScores();
       if (Game.currentLevel.end?.check(gridInfo)) {
-        Game.endTime = millis();
-        Game.currentLevel.score = gridInfo.totalScore;
-        Game.currentLevel.time = Math.floor(
-          (Game.endTime - Game.startTime) / 1000
-        );
-        console.log(
-          "Level complete in ",
-          (Game.endTime - Game.startTime) / 1000
-        );
-        if (Game.currentLevel.highscoreType == "time") {
-          infoBox(
-            "Level Complete!",
-            `You completed the level in ${
-              (Game.endTime - Game.startTime) / 1000
-            } seconds!<br>
-            Submit your score to the leaderboard!`,
-            null,
-            false,
-            null,
-            Game.currentLevel.leaderBoard
-          );
-        } else {
-          infoBox(
-            Game.currentLevel.end.info.title ?? "Info",
-            Game.currentLevel.end.info.text ?? "",
-            Game.currentLevel.end.info.image ?? null,
-            Game.currentLevel.end.info.closeOnClick ?? false,
-            Game.currentLevel.end.info.nextLevel ?? null
-          );
-        }
+        endLevel();
       }
     }
 
     this.selectedCell = null;
   },
 };
+
+function endLevel(nextLevel = null) {
+  Game.endTime = millis();
+  Game.currentLevel.score = gridInfo.totalScore;
+  Game.currentLevel.time = Math.floor((Game.endTime - Game.startTime) / 1000);
+  console.log("Level complete in ", (Game.endTime - Game.startTime) / 1000);
+  if (Game.currentLevel.highscoreType == "time") {
+    Game.currentLevel.over = false;
+    infoBox(
+      "Level Complete!",
+      `You completed the level in ${
+        (Game.endTime - Game.startTime) / 1000
+      } seconds!<br>
+            Submit your score to the leaderboard!`,
+      null,
+      false,
+      null,
+      Game.currentLevel.leaderBoard
+    );
+  } else {
+    infoBox(
+      Game.currentLevel.end.info.title ?? "Info",
+      Game.currentLevel.end.info.text ?? "",
+      Game.currentLevel.end.info.image ?? null,
+      Game.currentLevel.end.info.closeOnClick ?? false,
+      Game.currentLevel.end.info.nextLevel ?? null
+    );
+  }
+}
 Game.handlers.play = PlayHandler;
 
 //Resize canvas to fill the div

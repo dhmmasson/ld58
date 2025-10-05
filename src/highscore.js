@@ -23,8 +23,12 @@ async function sendRequestDreamlo(key, command, user, score, time) {
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-    const text = await response.json();
-    return text;
+    if (command === "add") {
+      return await response.text();
+    } else if (command === "json") {
+      const text = await response.json();
+      return text;
+    }
   } catch (error) {
     console.error("Error sending request to Dreamlo:", error);
     throw error;

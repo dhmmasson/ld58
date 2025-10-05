@@ -11,14 +11,21 @@
     "href": "CHANGELOG.html",
     "title": "Tiles Collector",
     "section": "",
-    "text": "add highscore"
+    "text": "hide submit button on tutorial\nfix json handling of leaderboard\nfix submit button ending the game"
+  },
+  {
+    "objectID": "CHANGELOG.html#v1.0.1-2025-10-06",
+    "href": "CHANGELOG.html#v1.0.1-2025-10-06",
+    "title": "Tiles Collector",
+    "section": "",
+    "text": "hide submit button on tutorial\nfix json handling of leaderboard\nfix submit button ending the game"
   },
   {
     "objectID": "CHANGELOG.html#v1.0.0-2025-10-05",
     "href": "CHANGELOG.html#v1.0.0-2025-10-05",
     "title": "Tiles Collector",
-    "section": "",
-    "text": "add highscore"
+    "section": "v1.0.0 (2025-10-05)",
+    "text": "v1.0.0 (2025-10-05)\n\nFeat\n\nadd highscore"
   },
   {
     "objectID": "CHANGELOG.html#v0.8.0-2025-10-05",
