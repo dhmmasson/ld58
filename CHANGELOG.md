@@ -1,3 +1,10 @@
+## v1.0.2 (2025-10-06)
+
+### Fix
+
+- update bounding box of the hint box
+- remove debug values in daily 1d
+
 ## v1.0.1 (2025-10-06)
 
 ### Fix
