@@ -89,7 +89,6 @@ function openMenu() {
       let level = null;
       document.getElementById("daily1D").onclick = () => {
         level = generateLevel("1D", 4, seed);
-        level.values = [1, 3, 0, 3, 3, 2, 2, 1, 1, 2, 0, 0, 1, 0, 2, -1];
         Game.currentLevel = level;
         Game.currentLevel.highscoreType = "time";
         Game.currentLevel.leaderBoard = "daily1D";
