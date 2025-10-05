@@ -91,6 +91,8 @@ const gridInfo = {
       (this.width - 32) / (this.cols + 1),
       (this.height - 32) / (this.rows + 1)
     );
+    this.cellSize = min(this.cellSize, 64); // maximum size
+
     this.cellSize = floor(this.cellSize / 4) * 4; // round to multiple of 8
 
     // Center the grid
@@ -210,16 +212,9 @@ function markFrontier(scores, orientation = "horizontal") {
   const rows = gridInfo.rows;
   noStroke();
   fill(0);
-  let check = (scores, a, b) => {
-    console.log(
-      "check",
-      scores,
-      a,
-      b,
-      scores.find((p) => p.i == a && p.j == b)
-    );
-    return scores.find((p) => p.i == a && p.j == b)?.count != 1;
-  };
+  let check = (scores, a, b) =>
+    scores.find((p) => p.i == a && p.j == b)?.count != 1;
+
   for (let r = 0; r < rows; r++) {
     for (let c = 0; c < cols; c++) {
       let current = values[r][c].color;
