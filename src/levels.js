@@ -50,4 +50,12 @@ const levels = [
         .split("")
         .map((c) => +c),
   },
+  {
+    id: 5,
+    name: "Level 5",
+    numberOfColors: 3,
+    direction: "2D",
+    length: 9,
+    values: "".split("").map((c) => +c),
+  },
 ];

@@ -210,8 +210,16 @@ function markFrontier(scores, orientation = "horizontal") {
   const rows = gridInfo.rows;
   noStroke();
   fill(0);
-  let check = (scores, a, b) =>
-    scores.find((p) => p.i == a && p.j == b)?.count != 1;
+  let check = (scores, a, b) => {
+    console.log(
+      "check",
+      scores,
+      a,
+      b,
+      scores.find((p) => p.i == a && p.j == b)
+    );
+    return scores.find((p) => p.i == a && p.j == b)?.count != 1;
+  };
   for (let r = 0; r < rows; r++) {
     for (let c = 0; c < cols; c++) {
       let current = values[r][c].color;
@@ -228,7 +236,7 @@ function markFrontier(scores, orientation = "horizontal") {
         if (check(gridInfo.colScores[c], current, down)) {
           circle(cx, cy + gridInfo.cellSize / 2, 6);
         }
-        if (check(gridInfo.colScores[c], current, up)) {
+        if (check(gridInfo.colScores[c], up, current)) {
           circle(cx, cy - gridInfo.cellSize / 2, 6);
         }
       }
@@ -237,7 +245,7 @@ function markFrontier(scores, orientation = "horizontal") {
         if (check(gridInfo.rowScores[r], current, right)) {
           circle(cx + gridInfo.cellSize / 2, cy, 6);
         }
-        if (check(gridInfo.rowScores[r], current, left)) {
+        if (check(gridInfo.rowScores[r], left, current)) {
           circle(cx - gridInfo.cellSize / 2, cy, 6);
         }
       }
