@@ -6,8 +6,8 @@ project:
 website:
   title: "Tiles Collector"
   description: "My Entry for Ludum Dare 58. A game made in 48 hours."
-  site-url: "https://dhmmasson.github.io/LD58"
-  
+  site-url: "https://dhmmasson.github.io/ld58"
+  favicon: assets/favicon.png
   navbar:
     left:
       - href: index.qmd
@@ -20,14 +20,15 @@ website:
   twitter-card: 
     card-style: "summary_large_image"
     creator: "@dhmmasson"
-    image: "asset/splash.png"
-    image-width: 640
-    image-height: 512
+    image: "assets/splash.png"
+    image-width: 800
+    image-height: 418
   page-footer: 
     left: 
       - text: "Ludum Dare 58 (2025) - Dimitri Masson - MIT License"
     right:
       - text: "Star the project on GitHub"
+      - href: https://github.com/dhmmasson/ld58
       - icon: github
 
 

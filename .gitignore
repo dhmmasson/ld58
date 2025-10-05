@@ -3,3 +3,5 @@
 
 # Ignore p5 examples
 /libraries/p5/empty-example
+/assets/*.blend2
+/assets/*.blend1
