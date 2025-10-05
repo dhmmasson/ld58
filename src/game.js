@@ -110,16 +110,20 @@ const gridInfo = {
       this.colScores.push(computeScoreCol(this, this.values, c));
     }
     this.totalScore = 0;
-    this.rowScores.forEach((row) => {
-      row.forEach((pair) => {
-        this.totalScore += pair.count == 1 ? 1 : 0;
+    if (this.cols > 1) {
+      this.rowScores.forEach((row) => {
+        row.forEach((pair) => {
+          this.totalScore += pair.count == 1 ? 1 : 0;
+        });
       });
-    });
-    this.colScores.forEach((col) => {
-      col.forEach((pair) => {
-        this.totalScore += pair.count == 1 ? 1 : 0;
+    }
+    if (this.rows > 1) {
+      this.colScores.forEach((col) => {
+        col.forEach((pair) => {
+          this.totalScore += pair.count == 1 ? 1 : 0;
+        });
       });
-    });
+    }
   },
   rowScores: [],
   colScores: [],
@@ -195,10 +199,7 @@ function computeScoreText(scores) {
   return scores.map((row, i) => {
     let x = gridInfo.cols * gridInfo.cellSize + gridInfo.cellSize / 2 + 10;
     let y = (i + 0.5) * gridInfo.cellSize;
-    let score = row.reduce(
-      (acc, pair) => acc + (pair.count == 1 ? -1 : 0),
-      gridInfo.cols
-    );
+    let score = row.reduce((acc, pair) => acc + (pair.count == 1 ? +1 : 0), 0);
     return { score, x, y };
   });
 }
@@ -318,24 +319,39 @@ function drawHint() {
       48,
       (width - left - 32 - margin * (totalPairs + 1)) / totalPairs
     );
+    const offsetY = 32;
     const y = 60;
 
     textAlign(LEFT, TOP);
     textSize(15);
     fill(0);
     if (gridInfo.direction != "vertical") {
-      text(`Row ${highlightedRow + 1}`, 32, 20);
+      text(
+        `Collected Pairs on Row ${highlightedRow + 1} : ${
+          gridInfo.rowScores[highlightedRow].filter((pair) => pair.count == 1)
+            .length
+        }`,
+        32,
+        offsetY + 20
+      );
       gridInfo.rowScores[highlightedRow].forEach((pair) =>
-        drawDomino(pair, 32, y, pairSize, margin)
+        drawDomino(pair, 32, offsetY + y, pairSize, margin)
       );
     }
     if (gridInfo.direction != "horizontal") {
-      text(`Col ${highlightedCol + 1}`, 32, pairSize + margin * 2 + 15 + 20);
+      text(
+        `Collected Pairs on Column ${highlightedCol + 1}: ${
+          gridInfo.colScores[highlightedCol].filter((pair) => pair.count == 1)
+            .length
+        } `,
+        32,
+        offsetY + pairSize + margin * 2 + 15 + 20
+      );
       gridInfo.colScores[highlightedCol].forEach((pair, index) =>
         drawDomino(
           pair,
           32,
-          y + pairSize + margin + 20,
+          offsetY + y + pairSize + margin + 20,
           pairSize,
           margin,
           "vertical"
@@ -343,6 +359,17 @@ function drawHint() {
       );
     }
   }
+  // Draw the total score on top of the hint area
+  textAlign(LEFT, TOP);
+  textSize(20);
+  fill(0);
+  text(
+    `Score: ${gridInfo.totalScore}/${
+      gridInfo.rows * gridInfo.cols
+    } collected pairs on the board `,
+    32,
+    32
+  );
 
   pop();
 }
