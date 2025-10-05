@@ -1,3 +1,11 @@
+## v1.0.1 (2025-10-06)
+
+### Fix
+
+- hide submit button on tutorial
+- fix json handling of leaderboard
+- fix submit button ending the game
+
 ## v1.0.0 (2025-10-05)
 
 ### Feat
