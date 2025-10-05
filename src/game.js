@@ -21,7 +21,10 @@ const Game = {
   },
 };
 
-function setup() {
+async function setup() {
+  await loadFont(
+    "https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap"
+  );
   // console.clear();
   const canvasElement = document.getElementById("game");
 
@@ -110,16 +113,20 @@ const gridInfo = {
       this.colScores.push(computeScoreCol(this, this.values, c));
     }
     this.totalScore = 0;
-    this.rowScores.forEach((row) => {
-      row.forEach((pair) => {
-        this.totalScore += pair.count == 1 ? 1 : 0;
+    if (this.cols > 1) {
+      this.rowScores.forEach((row) => {
+        row.forEach((pair) => {
+          this.totalScore += pair.count == 1 ? 1 : 0;
+        });
       });
-    });
-    this.colScores.forEach((col) => {
-      col.forEach((pair) => {
-        this.totalScore += pair.count == 1 ? 1 : 0;
+    }
+    if (this.rows > 1) {
+      this.colScores.forEach((col) => {
+        col.forEach((pair) => {
+          this.totalScore += pair.count == 1 ? 1 : 0;
+        });
       });
-    });
+    }
   },
   rowScores: [],
   colScores: [],
@@ -195,10 +202,7 @@ function computeScoreText(scores) {
   return scores.map((row, i) => {
     let x = gridInfo.cols * gridInfo.cellSize + gridInfo.cellSize / 2 + 10;
     let y = (i + 0.5) * gridInfo.cellSize;
-    let score = row.reduce(
-      (acc, pair) => acc + (pair.count == 1 ? -1 : 0),
-      gridInfo.cols
-    );
+    let score = row.reduce((acc, pair) => acc + (pair.count == 1 ? +1 : 0), 0);
     return { score, x, y };
   });
 }
@@ -276,17 +280,33 @@ function drawHint() {
   push();
   rectMode(CORNER);
   noFill();
-  stroke(255, 0, 0);
-  strokeWeight(4);
+
   let left = 0;
   let top = 0;
+  const totalPairs = gridInfo.numberOfColors * gridInfo.numberOfColors;
+  const margin = 4;
+  const pairSize = min(
+    48,
+    (width - left - 32 - margin * (totalPairs + 1)) / totalPairs
+  );
   if (gridInfo.hintSpace === "right") {
     left = gridInfo.offsetX + gridInfo.cols * gridInfo.cellSize + 64;
   } else if (gridInfo.hintSpace === "bottom") {
     top = gridInfo.offsetY + gridInfo.rows * gridInfo.cellSize + 64;
   }
   translate(left, top);
+  // Draw the hint area
+  stroke(1, 0, 0);
+  strokeWeight(0.5);
+  rect(
+    0,
+    0,
+    gridInfo.hintSpace === "bottom"
+      ? width - left
+      : max(400, (pairSize + margin) * totalPairs + 64),
 
+    60 + pairSize + margin + 20 + 32
+  );
   // Draw text
   noStroke();
   fill(255, 0, 0);
@@ -295,36 +315,56 @@ function drawHint() {
   // Get the row of the highligted cell
   let highlightedRow = -1;
   let highlightedCol = -1;
-  if (PlayHandler.hoveredCell) {
+  if (gridInfo.direction == "horizontal") {
+    highlightedRow = 0;
+  } else if (gridInfo.direction == "vertical") {
+    highlightedCol = 0;
+  } else if (PlayHandler.hoveredCell) {
     highlightedRow =
       (PlayHandler.hoveredCell.y + gridInfo.rows) % gridInfo.rows;
     highlightedCol =
       (PlayHandler.hoveredCell.x + gridInfo.cols) % gridInfo.cols;
+  } else if (PlayHandler.selectedCell) {
+    highlightedRow =
+      (PlayHandler.selectedCell.y + gridInfo.rows) % gridInfo.rows;
+    highlightedCol =
+      (PlayHandler.selectedCell.x + gridInfo.cols) % gridInfo.cols;
+  }
 
-    const totalPairs = gridInfo.numberOfColors * gridInfo.numberOfColors;
-    const margin = 4;
-    const pairSize = min(
-      48,
-      (width - left - 32 - margin * (totalPairs + 1)) / totalPairs
-    );
+  if (highlightedCol >= 0 || highlightedRow >= 0) {
+    const offsetY = 52;
     const y = 60;
 
     textAlign(LEFT, TOP);
     textSize(15);
     fill(0);
     if (gridInfo.direction != "vertical") {
-      text(`Row ${highlightedRow + 1}`, 32, 20);
+      text(
+        `Collected Pairs on Row ${highlightedRow + 1} : ${
+          gridInfo.rowScores[highlightedRow].filter((pair) => pair.count == 1)
+            .length
+        }`,
+        38,
+        offsetY + 20
+      );
       gridInfo.rowScores[highlightedRow].forEach((pair) =>
-        drawDomino(pair, 32, y, pairSize, margin)
+        drawDomino(pair, 38, offsetY + y, pairSize, margin)
       );
     }
     if (gridInfo.direction != "horizontal") {
-      text(`Col ${highlightedCol + 1}`, 32, pairSize + margin * 2 + 15 + 20);
+      text(
+        `Collected Pairs on Column ${highlightedCol + 1}: ${
+          gridInfo.colScores[highlightedCol].filter((pair) => pair.count == 1)
+            .length
+        } `,
+        32,
+        offsetY + pairSize + margin * 2 + 15 + 20
+      );
       gridInfo.colScores[highlightedCol].forEach((pair, index) =>
         drawDomino(
           pair,
           32,
-          y + pairSize + margin + 20,
+          offsetY + y + pairSize + margin + 20,
           pairSize,
           margin,
           "vertical"
@@ -332,6 +372,19 @@ function drawHint() {
       );
     }
   }
+  // Draw the total score on top of the hint area
+  textAlign(LEFT, TOP);
+  textSize(32);
+  text(`${Game.currentLevel.name}`, 38, 16);
+  textSize(20);
+  fill(0);
+  text(
+    `Score: ${gridInfo.totalScore}/${
+      gridInfo.rows * gridInfo.cols * (gridInfo.direction == "both" ? 2 : 1)
+    } collected pairs on the board `,
+    38,
+    52
+  );
 
   pop();
 }
@@ -351,7 +404,6 @@ function drawDomino(
 
   const x =
     offsetX +
-    margin +
     pairSize / 2 +
     (pairSize + margin) * (pair.i * gridInfo.numberOfColors + pair.j);
 
@@ -417,7 +469,16 @@ const PlayHandler = {
   selectedCell: null,
   hoveredCell: null,
   enter: function () {
+    // Add a return to menu button
+    removeElements();
+    Game.returnButton = createButton("Return to Menu")
+      .position(20, game.offsetTop - 20)
+      .mousePressed(() => {
+        Game.changeMode(GameState.MENU);
+      });
+
     let currentLevel = Game.currentLevel ?? levels[5];
+    Game.startTime = millis();
 
     if (currentLevel.info) {
       infoBox(
@@ -532,12 +593,31 @@ const PlayHandler = {
       this.selectedCell.selected = false;
       gridInfo.computeScores();
       if (Game.currentLevel.end?.check(gridInfo)) {
-        infoBox(
-          Game.currentLevel.end.info.title ?? "Info",
-          Game.currentLevel.end.info.text ?? "",
-          Game.currentLevel.end.info.image ?? null,
-          Game.currentLevel.end.info.closeOnClick ?? false
+        Game.endTime = millis();
+        console.log(
+          "Level complete in ",
+          (Game.endTime - Game.startTime) / 1000
         );
+        if (Game.currentLevel.leaderboard == "fastest") {
+          infoBox(
+            "Level Complete!",
+            `You completed the level in ${
+              (Game.endTime - Game.startTime) / 1000
+            } seconds!<br>
+            Submit your score to the leaderboard!`,
+            null,
+            false,
+            Game.currentLevel.end?.info.nextLevel ?? null
+          );
+        } else {
+          infoBox(
+            Game.currentLevel.end.info.title ?? "Info",
+            Game.currentLevel.end.info.text ?? "",
+            Game.currentLevel.end.info.image ?? null,
+            Game.currentLevel.end.info.closeOnClick ?? false,
+            Game.currentLevel.end.info.nextLevel ?? null
+          );
+        }
       }
     }
 

@@ -1,7 +1,7 @@
 const levels = [
   {
     id: 0,
-    name: "Level 0",
+    name: "Tile Picker Tutorial",
     numberOfColors: 4,
     direction: "1D",
     length: 1,
@@ -27,7 +27,7 @@ const levels = [
   },
   {
     id: 1,
-    name: "Level 1",
+    name: "Orange and Yellow Pair",
     numberOfColors: 2,
     direction: "1D",
     length: 2,
@@ -47,7 +47,7 @@ const levels = [
         title: "Well done!",
         text: `You created your first pair!<br>
         Actually, you created two pairs at once: Orange-Yellow and Yellow-Orange!<br> 
-        Imagine the frise repeating infinitely in both directions... So we count`,
+        Imagine the frise repeating infinitely in both directions... So we count the pair that is formed by the tiles at the edges.<br>`,
         image: "assets/tutorial2_end.png",
         closeOnClick: true,
         nextLevel: 2,
@@ -56,7 +56,7 @@ const levels = [
   },
   {
     id: 2,
-    name: "Level 2",
+    name: "All Pairs with Two Colors",
     numberOfColors: 2,
     direction: "1D",
     length: 4,
@@ -64,48 +64,144 @@ const levels = [
     info: {
       title: "Creating Pairs",
       text: `In the previous level, you created two pairs at once by placing a tile between two existing tiles.<br>
-      with two colors you can create 4 pairs, can you find them all?<br>
+      <br>
+      With two colors you can <strong>collect 4 pairs</strong>, can you find them all?
+      <br>
+      <br>
       On the right side you can see the pairs you have collected so far.<br>
-      The number on the right of the row indicates how many pair are missing.<br>
-      a black dot between two tiles means the pairs has been collected more than once`,
+      The number on the right of the row indicates how many pairs you have collected on that row.<br>
+      <br>
+      A black dot between two tiles means the pairs have been collected more than once`,
       image: "assets/tutorial3.png",
       closeOnClick: true,
+    },
+    end: {
+      check: (gridInfo) => gridInfo.totalScore == 4,
+      info: {
+        title: "Great!",
+        text: `You collected all the pairs!<br>
+        With two colors there are only 4 possible pairs, but with more colors the number of pairs increases quickly!<br>
+        <br>
+        In the next level you will have 3 colors to work with.`,
+        closeOnClick: true,
+        nextLevel: 3,
+      },
     },
   },
   {
     id: 3,
-    name: "Level 3",
+    name: "Three Colors",
     numberOfColors: 3,
     direction: "1D",
     length: 9,
     values: [0, -1, -1, -1, 1, -1, -1, -1, 0],
+    info: {
+      title: "Three Colors",
+      text: `With three colors, there are 9 possible pairs to collect.<br>
+      Can you find them all?`,
+    },
+    end: {
+      check: (gridInfo) => gridInfo.totalScore == 9,
+      info: {
+        title: "Well done!",
+        text: `You collected all the pairs!<br>
+        With three colors there are 9 possible pairs, but with four colors there are 16 possible pairs!<br>
+        <br>
+        In the next level you will have 4 colors to work with.`,
+        closeOnClick: true,
+        nextLevel: 4,
+      },
+    },
   },
   {
     id: 4,
-    name: "Level 4",
+    name: "Four Colors",
     numberOfColors: 4,
     direction: "1D",
     length: 16,
     values: [0, -1, -1, -1, -1, 1, -1, -1, -1, -1, 1, -1, -1, -1, -1, 0],
+    info: {
+      title: "Four Colors",
+      text: `With four colors, there are 16 possible pairs to collect.<br>
+      Can you find them all?
+      <br><br>
+      Some of the tiles are already placed for you, and cannot be changed.<br>
+      visit the sandbox mode to play without any pre-placed tiles.`,
+    },
+    end: {
+      check: (gridInfo) => gridInfo.totalScore == 16,
+      info: {
+        title: "Congratulations!",
+        text: `You collected all the pairs!<br>`,
+        nextLevel: 5,
+        closeOnClick: true,
+      },
+    },
   },
   {
     id: 5,
-    name: "Level 5",
-    numberOfColors: 3,
+    name: "Two Colors in 2D",
+    numberOfColors: 2,
     direction: "2D",
-    length: 9,
-    values:
-      "001021122x2112200122001021112200102120x102112211220010112200102112200102102112200"
-        .split("")
-        .map((c) => +c),
-  },
-  {
-    id: 5,
-    name: "Level 5",
-    numberOfColors: 3,
-    direction: "2D",
-    length: 9,
+    length: 4,
     values: "".split("").map((c) => +c),
+    info: {
+      title: "Two Dimensions",
+      text: `In this level, you will work in two dimensions!<br>
+      You can create pairs not only horizontally but also vertically.<br>
+      there are 16 pairs to collect horizontally and 16 pairs to collect vertically.<br>
+      Can you find all the pairs in this 2D grid?`,
+    },
+    end: {
+      check: (gridInfo) => gridInfo.totalScore == 4 * 4 * 2,
+      info: {
+        title: "Well done!",
+        text: `You collected all the pairs in 2D!<br>
+        With four colors in 2D there are 32 possible pairs!<br>`,
+        closeOnClick: true,
+        nextLevel: 6,
+      },
+    },
+  },
+  {
+    id: 6,
+    name: "Three Colors in 2D",
+    numberOfColors: 3,
+    direction: "2D",
+    length: 9,
+    values: `0xxx21122
+       x21x2x001
+       2z001x211
+       x2xx0102x
+       2zx1021x2
+       21x2xx010
+       x122xxx02
+       1122xx1x2
+       10x112x0x`
+      .replace(/\s+/g, "")
+      .split("")
+      .map((c) => +c),
+    info: {
+      title: "Three Colors in 2D",
+      text: `There exist grids that maximize the number of pairs in 2D. But they are boring (you just need to offset the rows)<br>
+      So in this level, some tiles are already placed for you, and cannot be changed.<br>
+      There exist a solution where all the rows have 9 unique pairs, can you find it?`,
+      closeOnClick: true,
+    },
+    end: {
+      check: (gridInfo) =>
+        gridInfo.rowScores.every(
+          (row) => row.filter((pair) => pair.count == 1).length == 9
+        ),
+      info: {
+        title: "Congratulations!",
+        text: `You found a solution where all the rows have 9 unique pairs!<br>
+        <br>
+        You can now can try to get the highest score in the daily challenges or in sandbox mode!`,
+        closeOnClick: true,
+        nextLevel: -1,
+      },
+    },
   },
 ];
 

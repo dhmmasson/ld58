@@ -9,6 +9,7 @@
  * @param text
  */
 function infoBox(title, text, image, closeOnClick = false, nextLevel = null) {
+  console.log("Show info box", title, nextLevel);
   let container = document.getElementById("game");
   let box = document.createElement("div");
   box.id = "infoBox";
@@ -18,15 +19,25 @@ function infoBox(title, text, image, closeOnClick = false, nextLevel = null) {
       <p>${text}</p>
       ${image ? `<img src="${image}" alt="Info Image" />` : ""}
       <button class="close">X</button>
+      ${
+        nextLevel
+          ? `<button class="btn btn-primary mt-3">Next Level</button>`
+          : ""
+      }
     </div>
   `;
 
   container.appendChild(box);
 
   function closeBox() {
+    console.log("Close info box", nextLevel);
     container.removeChild(box);
     if (nextLevel !== null) {
       console.log("Go to next level", nextLevel);
+      if (nextLevel === -1) {
+        Game.changeMode(GameState.MENU);
+        return;
+      }
       Game.currentLevel = levels[nextLevel];
       Game.changeMode(GameState.PLAY);
     }
