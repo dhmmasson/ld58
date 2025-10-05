@@ -21,7 +21,10 @@ const Game = {
   },
 };
 
-function setup() {
+async function setup() {
+  await loadFont(
+    "https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap"
+  );
   // console.clear();
   const canvasElement = document.getElementById("game");
 
@@ -277,17 +280,33 @@ function drawHint() {
   push();
   rectMode(CORNER);
   noFill();
-  stroke(255, 0, 0);
-  strokeWeight(4);
+
   let left = 0;
   let top = 0;
+  const totalPairs = gridInfo.numberOfColors * gridInfo.numberOfColors;
+  const margin = 4;
+  const pairSize = min(
+    48,
+    (width - left - 32 - margin * (totalPairs + 1)) / totalPairs
+  );
   if (gridInfo.hintSpace === "right") {
     left = gridInfo.offsetX + gridInfo.cols * gridInfo.cellSize + 64;
   } else if (gridInfo.hintSpace === "bottom") {
     top = gridInfo.offsetY + gridInfo.rows * gridInfo.cellSize + 64;
   }
   translate(left, top);
+  // Draw the hint area
+  stroke(1, 0, 0);
+  strokeWeight(0.5);
+  rect(
+    0,
+    0,
+    gridInfo.hintSpace === "bottom"
+      ? width - left
+      : max(400, (pairSize + margin) * totalPairs + 64),
 
+    60 + pairSize + margin + 20 + 32
+  );
   // Draw text
   noStroke();
   fill(255, 0, 0);
@@ -313,13 +332,7 @@ function drawHint() {
   }
 
   if (highlightedCol >= 0 || highlightedRow >= 0) {
-    const totalPairs = gridInfo.numberOfColors * gridInfo.numberOfColors;
-    const margin = 4;
-    const pairSize = min(
-      48,
-      (width - left - 32 - margin * (totalPairs + 1)) / totalPairs
-    );
-    const offsetY = 32;
+    const offsetY = 52;
     const y = 60;
 
     textAlign(LEFT, TOP);
@@ -331,11 +344,11 @@ function drawHint() {
           gridInfo.rowScores[highlightedRow].filter((pair) => pair.count == 1)
             .length
         }`,
-        32,
+        38,
         offsetY + 20
       );
       gridInfo.rowScores[highlightedRow].forEach((pair) =>
-        drawDomino(pair, 32, offsetY + y, pairSize, margin)
+        drawDomino(pair, 38, offsetY + y, pairSize, margin)
       );
     }
     if (gridInfo.direction != "horizontal") {
@@ -361,14 +374,16 @@ function drawHint() {
   }
   // Draw the total score on top of the hint area
   textAlign(LEFT, TOP);
+  textSize(32);
+  text(`${Game.currentLevel.name}`, 38, 16);
   textSize(20);
   fill(0);
   text(
     `Score: ${gridInfo.totalScore}/${
-      gridInfo.rows * gridInfo.cols
+      gridInfo.rows * gridInfo.cols * (gridInfo.direction == "both" ? 2 : 1)
     } collected pairs on the board `,
-    32,
-    32
+    38,
+    52
   );
 
   pop();
@@ -389,7 +404,6 @@ function drawDomino(
 
   const x =
     offsetX +
-    margin +
     pairSize / 2 +
     (pairSize + margin) * (pair.i * gridInfo.numberOfColors + pair.j);
 
