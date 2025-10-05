@@ -11,14 +11,21 @@
     "href": "CHANGELOG.html",
     "title": "Tiles Collector",
     "section": "",
-    "text": "add a return to menu button\nfont and better hint box\nimprove infoBox presentation\nfinish tutorial\nupdate score displaying\nalways display hints on 1D board\n\n\n\n\n\nremove back to menu button from menu\nfinish level 2 sentence\ncorrectly transition to next level\nmenu: remove p5js old menu"
+    "text": "add highscore"
+  },
+  {
+    "objectID": "CHANGELOG.html#v1.0.0-2025-10-05",
+    "href": "CHANGELOG.html#v1.0.0-2025-10-05",
+    "title": "Tiles Collector",
+    "section": "",
+    "text": "add highscore"
   },
   {
     "objectID": "CHANGELOG.html#v0.8.0-2025-10-05",
     "href": "CHANGELOG.html#v0.8.0-2025-10-05",
     "title": "Tiles Collector",
-    "section": "",
-    "text": "add a return to menu button\nfont and better hint box\nimprove infoBox presentation\nfinish tutorial\nupdate score displaying\nalways display hints on 1D board\n\n\n\n\n\nremove back to menu button from menu\nfinish level 2 sentence\ncorrectly transition to next level\nmenu: remove p5js old menu"
+    "section": "v0.8.0 (2025-10-05)",
+    "text": "v0.8.0 (2025-10-05)\n\nFeat\n\nadd a return to menu button\nfont and better hint box\nimprove infoBox presentation\nfinish tutorial\nupdate score displaying\nalways display hints on 1D board\n\n\n\nFix\n\nremove back to menu button from menu\nfinish level 2 sentence\ncorrectly transition to next level\nmenu: remove p5js old menu"
   },
   {
     "objectID": "CHANGELOG.html#v0.7.2-2025-10-05",
