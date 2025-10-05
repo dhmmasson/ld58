@@ -585,18 +585,16 @@ const PlayHandler = {
             Submit your score to the leaderboard!`,
             null,
             false,
-            Game.currentLevel.end?.nextLevel ?? null
+            Game.currentLevel.end?.info.nextLevel ?? null
           );
         } else {
           infoBox(
             Game.currentLevel.end.info.title ?? "Info",
             Game.currentLevel.end.info.text ?? "",
             Game.currentLevel.end.info.image ?? null,
-            Game.currentLevel.end.info.closeOnClick ?? false
+            Game.currentLevel.end.info.closeOnClick ?? false,
+            Game.currentLevel.end.info.nextLevel ?? null
           );
-          if (Game.currentLevel.end?.nextLevel) {
-            Game.currentLevel = Game.currentLevel.end.nextLevel;
-          }
         }
       }
     }
