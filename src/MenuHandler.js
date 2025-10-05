@@ -41,18 +41,6 @@ const MenuHandler = {
   },
   draw: function () {
     background(255);
-    // Level Selection (levels from levels.js)
-    textAlign(CENTER, CENTER);
-
-    fill(0);
-    textSize(32);
-    text("Tutoriel", width / 2, 50);
-    textSize(24);
-
-    buttons.forEach((button) => button.draw());
-
-    textSize(16);
-    text("Click to Start", width / 2, height - 50);
   },
   mousePressed: function () {
     buttons.forEach((button) => button.mousePressed());
