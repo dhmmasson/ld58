@@ -10,7 +10,7 @@ project:
 website:
   title: "Tiles Collector"
   description: "My Entry for Ludum Dare 58. A game made in 48 hours."
-  site-url: "https://dhmmasson.github.io/tilesCollector/"
+  site-url: "https://dhmmasson.github.io/tilesCollector"
   favicon: assets/favicon.png
   navbar:
     left:
@@ -20,7 +20,11 @@ website:
       - href: CHANGELOG.md
         text: Changelog
   open-graph:   
-    locale: "en_US"    
+    locale: "en_US"
+    site-name: "Tiles Collector"
+    image: "assets/splash.jpg"
+    image-width: 800
+    image-height: 418    
   twitter-card: 
     card-style: "summary_large_image"
     creator: "@dhmmasson"
