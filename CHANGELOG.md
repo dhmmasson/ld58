@@ -1,3 +1,21 @@
+## v0.8.0 (2025-10-05)
+
+### Feat
+
+- add a return to menu button
+- font and better hint box
+- improve infoBox presentation
+- finish tutorial
+- update score displaying
+- always display hints on 1D board
+
+### Fix
+
+- remove back to menu button from menu
+- finish level 2 sentence
+- correctly transition to next level
+- **menu**: remove p5js old menu
+
 ## v0.7.2 (2025-10-05)
 
 ### Fix
