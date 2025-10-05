@@ -469,6 +469,14 @@ const PlayHandler = {
   selectedCell: null,
   hoveredCell: null,
   enter: function () {
+    // Add a return to menu button
+    removeElements();
+    Game.returnButton = createButton("Return to Menu")
+      .position(20, game.offsetTop - 20)
+      .mousePressed(() => {
+        Game.changeMode(GameState.MENU);
+      });
+
     let currentLevel = Game.currentLevel ?? levels[5];
     Game.startTime = millis();
 
