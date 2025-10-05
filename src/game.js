@@ -295,12 +295,23 @@ function drawHint() {
   // Get the row of the highligted cell
   let highlightedRow = -1;
   let highlightedCol = -1;
-  if (PlayHandler.hoveredCell) {
+  if (gridInfo.direction == "horizontal") {
+    highlightedRow = 0;
+  } else if (gridInfo.direction == "vertical") {
+    highlightedCol = 0;
+  } else if (PlayHandler.hoveredCell) {
     highlightedRow =
       (PlayHandler.hoveredCell.y + gridInfo.rows) % gridInfo.rows;
     highlightedCol =
       (PlayHandler.hoveredCell.x + gridInfo.cols) % gridInfo.cols;
+  } else if (PlayHandler.selectedCell) {
+    highlightedRow =
+      (PlayHandler.selectedCell.y + gridInfo.rows) % gridInfo.rows;
+    highlightedCol =
+      (PlayHandler.selectedCell.x + gridInfo.cols) % gridInfo.cols;
+  }
 
+  if (highlightedCol >= 0 || highlightedRow >= 0) {
     const totalPairs = gridInfo.numberOfColors * gridInfo.numberOfColors;
     const margin = 4;
     const pairSize = min(
@@ -418,6 +429,7 @@ const PlayHandler = {
   hoveredCell: null,
   enter: function () {
     let currentLevel = Game.currentLevel ?? levels[5];
+    Game.startTime = millis();
 
     if (currentLevel.info) {
       infoBox(
@@ -532,12 +544,33 @@ const PlayHandler = {
       this.selectedCell.selected = false;
       gridInfo.computeScores();
       if (Game.currentLevel.end?.check(gridInfo)) {
-        infoBox(
-          Game.currentLevel.end.info.title ?? "Info",
-          Game.currentLevel.end.info.text ?? "",
-          Game.currentLevel.end.info.image ?? null,
-          Game.currentLevel.end.info.closeOnClick ?? false
+        Game.endTime = millis();
+        console.log(
+          "Level complete in ",
+          (Game.endTime - Game.startTime) / 1000
         );
+        if (Game.currentLevel.leaderboard == "fastest") {
+          infoBox(
+            "Level Complete!",
+            `You completed the level in ${
+              (Game.endTime - Game.startTime) / 1000
+            } seconds!<br>
+            Submit your score to the leaderboard!`,
+            null,
+            false,
+            Game.currentLevel.end?.nextLevel ?? null
+          );
+        } else {
+          infoBox(
+            Game.currentLevel.end.info.title ?? "Info",
+            Game.currentLevel.end.info.text ?? "",
+            Game.currentLevel.end.info.image ?? null,
+            Game.currentLevel.end.info.closeOnClick ?? false
+          );
+          if (Game.currentLevel.end?.nextLevel) {
+            Game.currentLevel = Game.currentLevel.end.nextLevel;
+          }
+        }
       }
     }
 
