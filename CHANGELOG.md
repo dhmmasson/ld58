@@ -1,3 +1,15 @@
+## v0.5.0 (2025-10-05)
+
+### Feat
+
+- create some arts
+- improve screen space usage
+
+### Fix
+
+- remove markin errors where left/right and up/down was not correctly checked
+- replace splash png with smaller size jpg
+
 ## v0.4.0 (2025-10-05)
 
 ### Feat
