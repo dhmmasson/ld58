@@ -1,3 +1,9 @@
+## v0.7.1 (2025-10-05)
+
+### Fix
+
+- **menu**: update html template path from absolute to relative
+
 ## v0.7.0 (2025-10-05)
 
 ### Feat
