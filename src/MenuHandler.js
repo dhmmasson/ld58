@@ -49,13 +49,15 @@ const MenuHandler = {
     console.log("Enter Menu");
   },
   draw: function () {
-    background(50, 100, 150);
+    background(255);
     // Level Selection (levels from levels.js)
     textAlign(CENTER, CENTER);
-    textSize(48);
-    fill(255);
-    text("Select Level", width / 2, 50);
+
+    fill(0);
+    textSize(32);
+    text("Tutoriel", width / 2, 50);
     textSize(24);
+
     buttons.forEach((button) => button.draw());
 
     textSize(16);

@@ -13,12 +13,10 @@ const Game = {
   },
   currentHandler: null,
   changeMode: function (newState) {
-    if (this.state !== newState) {
-      this.state = newState;
-      this.currentHandler = this.handlers[this.state];
-      if (this.currentHandler && this.currentHandler.enter) {
-        this.currentHandler.enter();
-      }
+    this.state = newState;
+    this.currentHandler = this.handlers[this.state];
+    if (this.currentHandler && this.currentHandler.enter) {
+      this.currentHandler.enter();
     }
   },
 };
@@ -91,6 +89,8 @@ const gridInfo = {
       (this.width - 32) / (this.cols + 1),
       (this.height - 32) / (this.rows + 1)
     );
+    this.cellSize = min(this.cellSize, 64); // maximum size
+
     this.cellSize = floor(this.cellSize / 4) * 4; // round to multiple of 8
 
     // Center the grid
@@ -210,16 +210,9 @@ function markFrontier(scores, orientation = "horizontal") {
   const rows = gridInfo.rows;
   noStroke();
   fill(0);
-  let check = (scores, a, b) => {
-    console.log(
-      "check",
-      scores,
-      a,
-      b,
-      scores.find((p) => p.i == a && p.j == b)
-    );
-    return scores.find((p) => p.i == a && p.j == b)?.count != 1;
-  };
+  let check = (scores, a, b) =>
+    scores.find((p) => p.i == a && p.j == b)?.count != 1;
+
   for (let r = 0; r < rows; r++) {
     for (let c = 0; c < cols; c++) {
       let current = values[r][c].color;
@@ -424,9 +417,16 @@ const PlayHandler = {
   selectedCell: null,
   hoveredCell: null,
   enter: function () {
-    console.log("Enter Play");
-
     let currentLevel = Game.currentLevel ?? levels[5];
+
+    if (currentLevel.info) {
+      infoBox(
+        currentLevel.info.title ?? "Info",
+        currentLevel.info.text ?? "",
+        currentLevel.info.image ?? null,
+        currentLevel.info.closeOnClick ?? false
+      );
+    }
 
     this.cells = [];
     gridInfo.numberOfColors = currentLevel.numberOfColors;
@@ -531,6 +531,14 @@ const PlayHandler = {
       this.selectedCell.value.color = updateColor(this.selectedCell);
       this.selectedCell.selected = false;
       gridInfo.computeScores();
+      if (Game.currentLevel.end?.check(gridInfo)) {
+        infoBox(
+          Game.currentLevel.end.info.title ?? "Info",
+          Game.currentLevel.end.info.text ?? "",
+          Game.currentLevel.end.info.image ?? null,
+          Game.currentLevel.end.info.closeOnClick ?? false
+        );
+      }
     }
 
     this.selectedCell = null;
