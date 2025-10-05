@@ -56,6 +56,9 @@ function infoBox(
         return;
       }
       const list = document.createElement("ol");
+      if (!Array.isArray(scores)) {
+        scores = [scores];
+      }
       scores.forEach((entry) => {
         const item = document.createElement("li");
         item.textContent = `${entry.name}: ${entry.score} in ${entry.seconds}s `;
@@ -85,6 +88,10 @@ function infoBox(
             return;
           }
           const list = document.createElement("ol");
+          console.log("Updated scores", scores);
+          if (!Array.isArray(scores)) {
+            scores = [scores];
+          }
           scores.forEach((entry) => {
             const item = document.createElement("li");
             item.textContent = `${entry.name}: ${entry.score} in ${entry.seconds}s `;
