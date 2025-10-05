@@ -66,14 +66,14 @@ function openMenu() {
 
   // Get the modals HTML and append to body
   Promise.all([
-    fetch("/assets/sandboxModal.html").then((response) => response.text()),
-    fetch("/assets/settingsModal.html").then((response) => response.text()),
+    fetch("./assets/sandboxModal.html").then((response) => response.text()),
+    fetch("./assets/settingsModal.html").then((response) => response.text()),
   ]).then(([sandboxModalHTML, settingsModalHTML]) => {
     document.body.insertAdjacentHTML("beforeend", sandboxModalHTML);
     document.body.insertAdjacentHTML("beforeend", settingsModalHTML);
   });
   // Get the static menu HTML and append to #game container
-  fetch("/assets/menu.html")
+  fetch("./assets/menu.html")
     .then((response) => response.text())
     .then((staticMenuHTML) => {
       let container = document.getElementById("game");
