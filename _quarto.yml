@@ -2,6 +2,9 @@ project:
   type: website
   preview:
     port: 6499
+  resources: 
+    - assets/*.png
+    - assets/*.jpg
 
 website:
   title: "Tiles Collector"
