@@ -11,14 +11,21 @@
     "href": "CHANGELOG.html",
     "title": "Tiles Collector",
     "section": "",
-    "text": "include info box at beggining and end of levels\nset tutorial title\n\n\n\n\n\nset a maximum size for the color picker"
+    "text": "add sandbox mode\nadd daily challenge\nlevels: add random level generation"
+  },
+  {
+    "objectID": "CHANGELOG.html#v0.7.0-2025-10-05",
+    "href": "CHANGELOG.html#v0.7.0-2025-10-05",
+    "title": "Tiles Collector",
+    "section": "",
+    "text": "add sandbox mode\nadd daily challenge\nlevels: add random level generation"
   },
   {
     "objectID": "CHANGELOG.html#v0.6.0-2025-10-05",
     "href": "CHANGELOG.html#v0.6.0-2025-10-05",
     "title": "Tiles Collector",
-    "section": "",
-    "text": "include info box at beggining and end of levels\nset tutorial title\n\n\n\n\n\nset a maximum size for the color picker"
+    "section": "v0.6.0 (2025-10-05)",
+    "text": "v0.6.0 (2025-10-05)\n\nFeat\n\ninclude info box at beggining and end of levels\nset tutorial title\n\n\n\nFix\n\nset a maximum size for the color picker"
   },
   {
     "objectID": "CHANGELOG.html#v0.5.0-2025-10-05",
@@ -60,6 +67,6 @@
     "href": "index.html",
     "title": "Tiles Collector",
     "section": "",
-    "text": "ReuseMITCitationFor attribution, please cite this work as:\nMasson, Dimitri. 2025. “Tiles Collector.” LudumDare\n58. https://dhmmasson.github.io/ld58/."
+    "text": "ReuseMITCitationFor attribution, please cite this work as:\nMasson, Dimitri. 2025. “Tiles Collector.” LudumDare\n58. https://dhmmasson.github.io/tilesCollector/."
   }
 ]

@@ -1,1 +1,1 @@
-Sitemap: https://dhmmasson.github.io/ld58/sitemap.xml
+Sitemap: https://dhmmasson.github.io/tilesCollector/sitemap.xml

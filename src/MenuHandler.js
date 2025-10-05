@@ -20,17 +20,7 @@ class Button {
     text(this.label, this.x + this.w / 2, this.y + this.h / 2);
   }
 
-  mousePressed() {
-    if (
-      mouseX > this.x &&
-      mouseX < this.x + this.w &&
-      mouseY > this.y &&
-      mouseY < this.y + this.h
-    ) {
-      Game.currentLevel = this.level;
-      Game.changeMode(GameState.PLAY);
-    }
-  }
+  mousePressed() {}
 }
 
 const buttons = levels.map((level, index) => {
@@ -47,6 +37,7 @@ const buttons = levels.map((level, index) => {
 const MenuHandler = {
   enter: function () {
     console.log("Enter Menu");
+    openMenu();
   },
   draw: function () {
     background(255);
@@ -68,3 +59,110 @@ const MenuHandler = {
   },
 };
 Game.handlers.menu = MenuHandler;
+function openMenu() {
+  // Remove existing menu if present
+  let oldMenu = document.getElementById("main-menu");
+  if (oldMenu) oldMenu.remove();
+
+  // Get the modals HTML and append to body
+  Promise.all([
+    fetch("/assets/sandboxModal.html").then((response) => response.text()),
+    fetch("/assets/settingsModal.html").then((response) => response.text()),
+  ]).then(([sandboxModalHTML, settingsModalHTML]) => {
+    document.body.insertAdjacentHTML("beforeend", sandboxModalHTML);
+    document.body.insertAdjacentHTML("beforeend", settingsModalHTML);
+  });
+  // Get the static menu HTML and append to #game container
+  fetch("/assets/menu.html")
+    .then((response) => response.text())
+    .then((staticMenuHTML) => {
+      let container = document.getElementById("game");
+      container.insertAdjacentHTML("beforeend", staticMenuHTML);
+
+      const menu = document.getElementById("main-menu");
+
+      // Dynamic: Tutorial buttons
+      const tutorialSection = document.getElementById("tutorialSection");
+      levels.forEach((level, idx) => {
+        const btn = document.createElement("button");
+        btn.innerText = `Level ${idx}`;
+        btn.className = "btn btn-outline-dark btn-sm";
+        btn.type = "button";
+        btn.onclick = () => {
+          Game.currentLevel = level;
+          menu.remove();
+          Game.changeMode(GameState.PLAY);
+        };
+        tutorialSection.appendChild(btn);
+      });
+      let seed = generateSeedForDay();
+      // Daily challenge buttons
+      let level = null;
+      document.getElementById("daily1D").onclick = () => {
+        level = generateLevel("1D", 4, seed);
+        Game.currentLevel = level;
+        menu.remove();
+        Game.changeMode(GameState.PLAY);
+      };
+      document.getElementById("daily2D3").onclick = () => {
+        level = generateLevel("2D", 3, seed);
+        Game.currentLevel = level;
+        menu.remove();
+        Game.changeMode(GameState.PLAY);
+      };
+      document.getElementById("daily2D4").onclick = () => {
+        Game.currentLevel = generateLevel("2D", 4, seed);
+        menu.remove();
+        Game.changeMode(GameState.PLAY);
+      };
+
+      // Sandbox button
+      document.getElementById("sandboxBtn").onclick = () => {
+        let n = parseInt(document.getElementById("colorSelect").value);
+        let direction = document.getElementById("dimSelect").value;
+        let length = n * n;
+        let level = {
+          id: 999,
+          name: `Sandbox_${n}_${direction}`,
+          numberOfColors: n,
+          direction,
+          length,
+          values: [],
+        };
+
+        // scoreType: Array.from(
+        //     document.querySelectorAll('input[name="scoreType"]:checked')
+        //   ).map((cb) => cb.value),
+        Game.currentLevel = level;
+        //close the modal
+
+        menu.remove();
+        Game.changeMode(GameState.PLAY);
+      };
+
+      // Palette select
+      const paletteSelect = document.getElementById("paletteSelect");
+      colorPalettes.forEach((palette, idx) => {
+        const opt = document.createElement("option");
+        opt.value = idx;
+        opt.innerText = palette.name || `Palette ${idx + 1}`;
+        paletteSelect.appendChild(opt);
+      });
+      paletteSelect.onchange = () => {
+        Game.setPalette(parseInt(paletteSelect.value));
+      };
+
+      // Colorblind mode
+      const cbCheckbox = document.getElementById("cbCheckbox");
+      cbCheckbox.checked = Game.colorblindMode || false;
+      cbCheckbox.onchange = () => {
+        Game.setColorblindMode(cbCheckbox.checked);
+      };
+
+      // Leaderboard button
+      document.getElementById("leaderboardBtn").onclick = () => {
+        menu.remove();
+        Game.showLeaderboard();
+      };
+    });
+}

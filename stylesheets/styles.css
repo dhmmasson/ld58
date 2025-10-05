@@ -1,7 +1,25 @@
+/* CSS Variables for Quarto Bootstrap theme */
+:root {
+  --ld58-bg: #fff;
+  --ld58-fg: #222;
+  --ld58-accent: #1976d2;
+  --ld58-accent-light: #e3f2fd;
+  --ld58-accent-dark: #1565c0;
+  --ld58-success: #388e3c;
+  --ld58-success-light: #c8e6c9;
+  --ld58-warning: #ffb74d;
+  --ld58-warning-light: #ffe0b2;
+  --ld58-info: #3399ff;
+  --ld58-info-light: #d0eaff;
+  --ld58-border-radius: 0.5rem;
+  --ld58-padding: 1rem;
+  --ld58-font-family: "Segoe UI", Arial, sans-serif;
+  --ld58-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
 #game {
   position: relative;
 }
-/* css styles */
 #infoBox {
   position: absolute;
   top: 0;
@@ -15,9 +33,9 @@
   z-index: 10;
 }
 #infoBox .content {
-  background: white;
-  border: 2px solid black;
-  padding: 16px;
+  background: var(--ld58-bg);
+  border: 2px solid var(--ld58-fg);
+  padding: var(--ld58-padding);
   max-width: 360px;
   width: 80%;
   position: relative;
@@ -27,8 +45,8 @@
   opacity: 0;
   transform: scale(0.5);
   animation: infoBoxAppear 0.5s ease-out forwards;
+  box-shadow: var(--ld58-box-shadow);
 }
-
 @keyframes infoBoxAppear {
   to {
     opacity: 1;
@@ -46,4 +64,27 @@
   border: none;
   font-size: 16px;
   cursor: pointer;
+}
+
+/* Main menu - Quarto Bootstrap style */
+.main-menu {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--ld58-bg);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: var(--ld58-font-family);
+  overflow-y: auto;
+  padding-bottom: 2rem;
+  box-shadow: var(--ld58-box-shadow);
+}
+
+.tutorialSection {
+  gap: 1rem;
+  margin-bottom: 1rem;
 }
