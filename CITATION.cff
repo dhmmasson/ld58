@@ -21,7 +21,9 @@ identifiers:
 repository-code: "https://github.com/dhmmasson/ld58"
 url: "dhmmasson.github.io/ld58/"
 abstract: >-
-  My entry to ld58
+  A minimalist puzzle game for Ludum Dare 58 (theme: *Collector*). 
+  Arrange colored tiles in 1D and 2D grids to collect unique color pairs — 
+  a mix between dominoes and sudoku, built with p5.js for web and mobile.
 keywords:
   - Ludum Dare
   - Game
