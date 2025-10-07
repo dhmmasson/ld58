@@ -1,5 +1,5 @@
 cff-version: 0.0.1
-title: LD58 - untitled
+title: Tiles Collector
 message: >-
   If you use this software, please cite it using the
   metadata from this file.
@@ -11,11 +11,13 @@ authors:
     email: dhm.masson@gmail.com
 identifiers:
   - type: doi
-    value: 10.5281/zenodo.xxxx
+    value: 10.5281/zenodo.17289917
     description: "DOI of the Compo Release"
   - type: doi
-    value: 10.5281/zenodo.xxxx
+    value: 10.5281/zenodo.17289916
     description: "DOI of all versions"
+  - type: swh
+    value: swh:1:dir:141992b5d1d2ae0e759c4f88f54aa811931bffa3
 repository-code: "https://github.com/dhmmasson/ld58"
 url: "dhmmasson.github.io/ld58/"
 abstract: >-
@@ -26,5 +28,5 @@ keywords:
   - Web
   - Javascript
 license: MIT
-version: v0.0.1
+version: v1.0.2
 date-released: "2025-10-05"

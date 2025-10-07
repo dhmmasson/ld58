@@ -3,8 +3,9 @@
 ![p5.js](https://img.shields.io/badge/p5.js-v2.0.5-ED225D?logo=p5.js&logoColor=FFFFFF)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-<!-- [![SWH](https://archive.softwareheritage.org/badge/origin/https://github.com/dhmmasson/focusHunt/)](https://archive.softwareheritage.org/browse/origin/?origin_url=https://github.com/dhmmasson/focusHunt)
-[![SWH](https://archive.softwareheritage.org/badge/swh:1:snp:212cd6d058f46ccc76adb167784e24d36e3971b0/)](https://archive.softwareheritage.org/swh:1:snp:212cd6d058f46ccc76adb167784e24d36e3971b0;origin=https://github.com/dhmmasson/focusHunt) -->
+[![SWH](https://archive.softwareheritage.org/badge/swh:1:dir:141992b5d1d2ae0e759c4f88f54aa811931bffa3/)](https://archive.softwareheritage.org/swh:1:dir:141992b5d1d2ae0e759c4f88f54aa811931bffa3)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17289917.svg)](https://doi.org/10.5281/zenodo.17289917)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17289916.svg)](https://doi.org/10.5281/zenodo.17289916)
 
 # Tile Collector
 
@@ -35,9 +36,7 @@ I managed for once to have :
 - Silent by design — perfect for thoughtful play or your own background music (coping x2).
 - Fully web-based, built with **p5.js**, **HTML**, and **CSS**, compatible with desktop and mobile (as much as I could on the only phone I have).
 - Developed and hosted using **Quarto** and **GitHub Pages** during the 48-hour jam, with regular commits and releases all along the 48 hours.
--
-
----
+- ***
 
 ## Behind the Design
 
