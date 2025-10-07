@@ -2,10 +2,10 @@
 ![Ludum Dare 58 - Compo](https://img.shields.io/badge/LudumDare58-Compo-ee5533?&link=https%3A%2F%2Fldjam.com%2Fevents%2Fludum-dare%2F58%2Ftiles-collector)
 ![p5.js](https://img.shields.io/badge/p5.js-v2.0.5-ED225D?logo=p5.js&logoColor=FFFFFF)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-
+[![SWH](https://archive.softwareheritage.org/badge/origin/https://github.com/dhmmasson/tilesCollector/)](https://archive.softwareheritage.org/browse/origin/?origin_url=https://github.com/dhmmasson/tilesCollector)
 [![SWH](https://archive.softwareheritage.org/badge/swh:1:dir:141992b5d1d2ae0e759c4f88f54aa811931bffa3/)](https://archive.softwareheritage.org/swh:1:dir:141992b5d1d2ae0e759c4f88f54aa811931bffa3)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17289917.svg)](https://doi.org/10.5281/zenodo.17289917)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17289916.svg)](https://doi.org/10.5281/zenodo.17289916)
+
 
 # Tile Collector
 
