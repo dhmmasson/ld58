@@ -500,7 +500,7 @@ const PlayHandler = {
     let length = currentLevel.length;
     gridInfo.direction = currentLevel.direction; // "horizontal", "vertical", "both", "1D"
     if (gridInfo.direction == "1D") {
-      if (width < 360) {
+      if (width < 720 * 2) {
         gridInfo.direction = "vertical";
         gridInfo.rows = length;
         gridInfo.cols = 1;
